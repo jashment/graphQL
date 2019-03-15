@@ -1,0 +1,19 @@
+{
+  "name": "graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dockerStart": "docker-compose -f ./docker-compose.yml up -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jashment/graphQL.git"
+  },
+  "author": "Jordan Ashment",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jashment/graphQL/issues"
+  },
+  "homepage": "https://github.com/jashment/graphQL#readme"
+}
