@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/jashment/graphQL/issues"
   },
-  "homepage": "https://github.com/jashment/graphQL#readme"
+  "homepage": "https://github.com/jashment/graphQL#readme",
+  "dependencies": {
+    "prisma-client-lib": "^1.28.5"
+  }
 }
