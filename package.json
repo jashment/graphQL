@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dockerStart": "docker-compose -f ./docker-compose.yml up -d"
+    "dockerStart": "docker-compose -f ./docker-compose.yml up -d",
+    "deploy": "prisma deploy"
   },
   "repository": {
     "type": "git",
