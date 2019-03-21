@@ -1,12 +1,13 @@
 {
-  "name": "graphql",
+  "name": "graphql-practice",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dockerStart": "docker-compose -f ./docker-compose.yml up -d",
     "deploy": "prisma deploy",
-    "reset": "prisma reset --force"
+    "reset": "prisma reset --force",
+    "start": "ts-node-dev --no-notify --respawn --transpileOnly ./"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,14 @@
   },
   "homepage": "https://github.com/jashment/graphQL#readme",
   "dependencies": {
-    "prisma-client-lib": "^1.28.5"
+    "graphql": "^14.1.1",
+    "graphql-yoga": "^1.17.4",
+    "nexus": "^0.11.5",
+    "nexus-prisma": "^0.3.5",
+    "prisma-client-lib": "^1.29.0"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.32",
+    "typescript": "^3.3.4000"
   }
 }
