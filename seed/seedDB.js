@@ -4,13 +4,15 @@ const {GraphQLClient} = require('graphql-request')
 const client = new GraphQLClient('http://localhost:4466')
 
 const mutation = `mutation createPokemon (
-    
+    $name: String,
+    $height: Int,
+    $weight: Int
 )
 {
     createPokemon(data: {
-      name: "Snorlax2"
-      height: 200
-      weight: 1000
+      name: $name
+      height: $height
+      weight: $weight
     }) {
       name
       height
