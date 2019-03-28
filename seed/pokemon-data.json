@@ -1,103 +1,160 @@
+// [
+//     {
+//         "name": "bulbasaur",
+//         "url": "https://pokeapi.co/api/v2/pokemon/1/"
+//     },
+//     {
+//         "name": "ivysaur",
+//         "url": "https://pokeapi.co/api/v2/pokemon/2/"
+//     },
+//     {
+//         "name": "venusaur",
+//         "url": "https://pokeapi.co/api/v2/pokemon/3/"
+//     },
+//     {
+//         "name": "charmander",
+//         "url": "https://pokeapi.co/api/v2/pokemon/4/"
+//     },
+//     {
+//         "name": "charmeleon",
+//         "url": "https://pokeapi.co/api/v2/pokemon/5/"
+//     },
+//     {
+//         "name": "charizard",
+//         "url": "https://pokeapi.co/api/v2/pokemon/6/"
+//     },
+//     {
+//         "name": "squirtle",
+//         "url": "https://pokeapi.co/api/v2/pokemon/7/"
+//     },
+//     {
+//         "name": "wartortle",
+//         "url": "https://pokeapi.co/api/v2/pokemon/8/"
+//     },
+//     {
+//         "name": "blastoise",
+//         "url": "https://pokeapi.co/api/v2/pokemon/9/"
+//     },
+//     {
+//         "name": "caterpie",
+//         "url": "https://pokeapi.co/api/v2/pokemon/10/"
+//     },
+//     {
+//         "name": "metapod",
+//         "url": "https://pokeapi.co/api/v2/pokemon/11/"
+//     },
+//     {
+//         "name": "butterfree",
+//         "url": "https://pokeapi.co/api/v2/pokemon/12/"
+//     },
+//     {
+//         "name": "weedle",
+//         "url": "https://pokeapi.co/api/v2/pokemon/13/"
+//     },
+//     {
+//         "name": "kakuna",
+//         "url": "https://pokeapi.co/api/v2/pokemon/14/"
+//     },
+//     {
+//         "name": "beedrill",
+//         "url": "https://pokeapi.co/api/v2/pokemon/15/"
+//     },
+//     {
+//         "name": "pidgey",
+//         "url": "https://pokeapi.co/api/v2/pokemon/16/"
+//     },
+//     {
+//         "name": "pidgeotto",
+//         "url": "https://pokeapi.co/api/v2/pokemon/17/"
+//     },
+//     {
+//         "name": "pidgeot",
+//         "url": "https://pokeapi.co/api/v2/pokemon/18/"
+//     },
+//     {
+//         "name": "rattata",
+//         "url": "https://pokeapi.co/api/v2/pokemon/19/"
+//     },
+//     {
+//         "name": "raticate",
+//         "url": "https://pokeapi.co/api/v2/pokemon/20/"
+//     },
+//     {
+//         "name": "spearow",
+//         "url": "https://pokeapi.co/api/v2/pokemon/21/"
+//     },
+//     {
+//         "name": "fearow",
+//         "url": "https://pokeapi.co/api/v2/pokemon/22/"
+//     },
+//     {
+//         "name": "ekans",
+//         "url": "https://pokeapi.co/api/v2/pokemon/23/"
+//     },
+//     {
+//         "name": "arbok",
+//         "url": "https://pokeapi.co/api/v2/pokemon/24/"
+//     },
+//     {
+//         "name": "pikachu",
+//         "url": "https://pokeapi.co/api/v2/pokemon/25/"
+//     }
+// ]
+
 [
     {
-        "name": "bulbasaur",
-        "url": "https://pokeapi.co/api/v2/pokemon/1/"
+        "name": "Monkey",
+        "description": "This is a happy monkey",
+        "url": "https://images.pexels.com/photos/50582/selfie-monkey-self-portrait-macaca-nigra-50582.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "ivysaur",
-        "url": "https://pokeapi.co/api/v2/pokemon/2/"
+        "name": "Unicorn",
+        "description": "I'm pretty sure that's a unicorn...",
+        "url": "https://images.pexels.com/photos/1564506/pexels-photo-1564506.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "venusaur",
-        "url": "https://pokeapi.co/api/v2/pokemon/3/"
+        "name": "Lemur",
+        "description": "He's very talented with a trumpet.",
+        "url": "https://images.pexels.com/photos/164703/pexels-photo-164703.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "charmander",
-        "url": "https://pokeapi.co/api/v2/pokemon/4/"
+        "name": "Cat",
+        "description": "Don't look him right in the eye...",
+        "url": "https://images.pexels.com/photos/384555/pexels-photo-384555.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "charmeleon",
-        "url": "https://pokeapi.co/api/v2/pokemon/5/"
+        "name": "Bear",
+        "description": "I'm positive that's a bear...right?",
+        "url": "https://images.pexels.com/photos/825949/pexels-photo-825949.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "charizard",
-        "url": "https://pokeapi.co/api/v2/pokemon/6/"
+        "name": "Owl",
+        "description": "This owl is laughing at you.",
+        "url": "https://images.pexels.com/photos/1804976/pexels-photo-1804976.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "squirtle",
-        "url": "https://pokeapi.co/api/v2/pokemon/7/"
+        "name": "Deer",
+        "description": "This deer can't believe what you just did!",
+        "url": "https://images.pexels.com/photos/1318555/pexels-photo-1318555.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "wartortle",
-        "url": "https://pokeapi.co/api/v2/pokemon/8/"
+        "name": "Gorilla",
+        "description": "The gorilla looks kinda guilty...",
+        "url": "https://images.pexels.com/photos/39571/gorilla-silverback-animal-silvery-grey-39571.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "blastoise",
-        "url": "https://pokeapi.co/api/v2/pokemon/9/"
+        "name": "Penguin",
+        "description": "Look at the little baby!",
+        "url": "https://images.pexels.com/photos/52509/penguins-emperor-antarctic-life-52509.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "caterpie",
-        "url": "https://pokeapi.co/api/v2/pokemon/10/"
+        "name": "Cow",
+        "description": "Well? Are you gonna share?",
+        "url": "https://images.pexels.com/photos/33550/cows-curious-cattle-agriculture.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     },
     {
-        "name": "metapod",
-        "url": "https://pokeapi.co/api/v2/pokemon/11/"
-    },
-    {
-        "name": "butterfree",
-        "url": "https://pokeapi.co/api/v2/pokemon/12/"
-    },
-    {
-        "name": "weedle",
-        "url": "https://pokeapi.co/api/v2/pokemon/13/"
-    },
-    {
-        "name": "kakuna",
-        "url": "https://pokeapi.co/api/v2/pokemon/14/"
-    },
-    {
-        "name": "beedrill",
-        "url": "https://pokeapi.co/api/v2/pokemon/15/"
-    },
-    {
-        "name": "pidgey",
-        "url": "https://pokeapi.co/api/v2/pokemon/16/"
-    },
-    {
-        "name": "pidgeotto",
-        "url": "https://pokeapi.co/api/v2/pokemon/17/"
-    },
-    {
-        "name": "pidgeot",
-        "url": "https://pokeapi.co/api/v2/pokemon/18/"
-    },
-    {
-        "name": "rattata",
-        "url": "https://pokeapi.co/api/v2/pokemon/19/"
-    },
-    {
-        "name": "raticate",
-        "url": "https://pokeapi.co/api/v2/pokemon/20/"
-    },
-    {
-        "name": "spearow",
-        "url": "https://pokeapi.co/api/v2/pokemon/21/"
-    },
-    {
-        "name": "fearow",
-        "url": "https://pokeapi.co/api/v2/pokemon/22/"
-    },
-    {
-        "name": "ekans",
-        "url": "https://pokeapi.co/api/v2/pokemon/23/"
-    },
-    {
-        "name": "arbok",
-        "url": "https://pokeapi.co/api/v2/pokemon/24/"
-    },
-    {
-        "name": "pikachu",
-        "url": "https://pokeapi.co/api/v2/pokemon/25/"
+        "name": "Tiger",
+        "description": "Stretch!",
+        "url": "https://images.pexels.com/photos/572861/pexels-photo-572861.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     }
 ]
-
