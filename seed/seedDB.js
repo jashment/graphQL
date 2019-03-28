@@ -6,17 +6,20 @@ const client = new GraphQLClient('http://localhost:4466')
 const mutation = `mutation createPokemon (
     $name: String,
     $height: Int,
-    $weight: Int
+    $weight: Int,
+    $url: String
 )
 {
     createPokemon(data: {
       name: $name
       height: $height
       weight: $weight
+      url: $url
     }) {
       name
       height
       weight
+      url
       id
     }
   }`
@@ -25,19 +28,20 @@ const sampleFiles = [
     'pokemon-data.json',
 ]
 
-function main(inputFiles) {
-    const content = fs.readFileSync(`./seed/${inputFile}`)
+async function main(inputFiles) {
+    const content = fs.readFileSync(`./seed/${inputFiles}`)
     const allPokemon = JSON.parse(content)
 
-    allPokemon.forEach(item => {
+    allPokemon.forEach(async item => {
 
     const variables = {
         name: item.name,
         height: 50,
-        weight: 1000
+        weight: 1000,
+        url: item.url
     }
 
-    client.request(mutation, variables)
+    await client.request(mutation, variables)
         .then(data => {
             console.log(data)
         })
@@ -48,5 +52,5 @@ function main(inputFiles) {
 }
 
 for (let fileName of sampleFiles) {
-    main(file).catch(err => console.error(err))
+    main(fileName).catch(err => console.error(err))
 }

@@ -8,7 +8,8 @@
     "deploy": "prisma deploy",
     "reset": "prisma reset --force",
     "start": "ts-node-dev --no-notify --respawn --transpileOnly ./",
-    "load": "node ./seed/seedDB.js"
+    "load": "node ./seed/seedDB.js",
+    "delete": "prisma delete --force"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,7 @@
     "graphql-yoga": "^1.17.4",
     "nexus": "^0.11.5",
     "nexus-prisma": "^0.3.5",
-    "prisma": "^1.29.1",
+    "prisma": "^1.29.2",
     "prisma-client-lib": "^1.29.1"
   },
   "devDependencies": {
