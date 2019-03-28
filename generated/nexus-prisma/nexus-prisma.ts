@@ -1727,6 +1727,7 @@ type PokemonObject =
   | { name: 'stats', args?: PokemonStatsArgs[] | false, alias?: string  } 
   | { name: 'types', args?: PokemonTypesArgs[] | false, alias?: string  } 
   | { name: 'weight', args?: [] | false, alias?: string  } 
+  | { name: 'url', args?: [] | false, alias?: string  } 
 
 type PokemonFields =
   | 'abilities'
@@ -1746,6 +1747,7 @@ type PokemonFields =
   | 'stats'
   | 'types'
   | 'weight'
+  | 'url'
 
 
 type PokemonAbilitiesArgs =
@@ -1998,6 +2000,14 @@ export interface PokemonFieldDetails {
   }
   weight: {
     type: 'Int'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  url: {
+    type: 'String'
     args: {}
     description: string
     list: undefined
@@ -5305,6 +5315,7 @@ type PokemonPreviousValuesObject =
   | { name: 'name', args?: [] | false, alias?: string  } 
   | { name: 'order', args?: [] | false, alias?: string  } 
   | { name: 'weight', args?: [] | false, alias?: string  } 
+  | { name: 'url', args?: [] | false, alias?: string  } 
 
 type PokemonPreviousValuesFields =
   | 'base_experience'
@@ -5315,6 +5326,7 @@ type PokemonPreviousValuesFields =
   | 'name'
   | 'order'
   | 'weight'
+  | 'url'
 
 
 
@@ -5379,6 +5391,14 @@ export interface PokemonPreviousValuesFieldDetails {
   }
   weight: {
     type: 'Int'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  url: {
+    type: 'String'
     args: {}
     description: string
     list: undefined
@@ -7722,6 +7742,20 @@ export interface PokemonWhereInput {
   weight_lte?: number | null
   weight_gt?: number | null
   weight_gte?: number | null
+  url?: string | null
+  url_not?: string | null
+  url_in?: string[]
+  url_not_in?: string[]
+  url_lt?: string | null
+  url_lte?: string | null
+  url_gt?: string | null
+  url_gte?: string | null
+  url_contains?: string | null
+  url_not_contains?: string | null
+  url_starts_with?: string | null
+  url_not_starts_with?: string | null
+  url_ends_with?: string | null
+  url_not_ends_with?: string | null
   AND?: PokemonWhereInput[]
   OR?: PokemonWhereInput[]
   NOT?: PokemonWhereInput[]
@@ -7831,6 +7865,20 @@ export type PokemonWhereInputInputObject =
   | { name: 'weight_lte', alias?: string  } 
   | { name: 'weight_gt', alias?: string  } 
   | { name: 'weight_gte', alias?: string  } 
+  | { name: 'url', alias?: string  } 
+  | { name: 'url_not', alias?: string  } 
+  | { name: 'url_in', alias?: string  } 
+  | { name: 'url_not_in', alias?: string  } 
+  | { name: 'url_lt', alias?: string  } 
+  | { name: 'url_lte', alias?: string  } 
+  | { name: 'url_gt', alias?: string  } 
+  | { name: 'url_gte', alias?: string  } 
+  | { name: 'url_contains', alias?: string  } 
+  | { name: 'url_not_contains', alias?: string  } 
+  | { name: 'url_starts_with', alias?: string  } 
+  | { name: 'url_not_starts_with', alias?: string  } 
+  | { name: 'url_ends_with', alias?: string  } 
+  | { name: 'url_not_ends_with', alias?: string  } 
   | { name: 'AND', alias?: string  } 
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 
@@ -8413,6 +8461,7 @@ export interface PokemonCreateInput {
   stats?: StatCreateManyInput | null
   types?: TypeCreateManyInput | null
   weight?: number | null
+  url?: string | null
 }
 export type PokemonCreateInputInputObject =
   | Extract<keyof PokemonCreateInput, string>
@@ -8432,6 +8481,7 @@ export type PokemonCreateInputInputObject =
   | { name: 'stats', alias?: string  } 
   | { name: 'types', alias?: string  } 
   | { name: 'weight', alias?: string  } 
+  | { name: 'url', alias?: string  } 
   
 export interface AbilityCreateManyInput {
   create?: AbilityCreateInput[]
@@ -8612,6 +8662,7 @@ export interface PokemonUpdateInput {
   stats?: StatUpdateManyInput | null
   types?: TypeUpdateManyInput | null
   weight?: number | null
+  url?: string | null
 }
 export type PokemonUpdateInputInputObject =
   | Extract<keyof PokemonUpdateInput, string>
@@ -8631,6 +8682,7 @@ export type PokemonUpdateInputInputObject =
   | { name: 'stats', alias?: string  } 
   | { name: 'types', alias?: string  } 
   | { name: 'weight', alias?: string  } 
+  | { name: 'url', alias?: string  } 
   
 export interface AbilityUpdateManyInput {
   create?: AbilityCreateInput[]
@@ -9738,6 +9790,7 @@ export interface PokemonUpdateManyMutationInput {
   name?: string | null
   order?: number | null
   weight?: number | null
+  url?: string | null
 }
 export type PokemonUpdateManyMutationInputInputObject =
   | Extract<keyof PokemonUpdateManyMutationInput, string>
@@ -9748,6 +9801,7 @@ export type PokemonUpdateManyMutationInputInputObject =
   | { name: 'name', alias?: string  } 
   | { name: 'order', alias?: string  } 
   | { name: 'weight', alias?: string  } 
+  | { name: 'url', alias?: string  } 
   
 export interface AbilityUpdateManyMutationInput {
   name?: string | null
@@ -10299,6 +10353,8 @@ export type PokemonOrderByInputValues =
   | 'order_DESC'
   | 'weight_ASC'
   | 'weight_DESC'
+  | 'url_ASC'
+  | 'url_DESC'
   | 'createdAt_ASC'
   | 'createdAt_DESC'
   | 'updatedAt_ASC'

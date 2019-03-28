@@ -43,6 +43,7 @@ type Pokemon {
   stats: [Stat!]!
   types: [Type!]!
   weight: Int
+  url: String
 }
 
 type Ability {

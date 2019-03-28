@@ -593,6 +593,8 @@ export type PokemonOrderByInput =
   | "order_DESC"
   | "weight_ASC"
   | "weight_DESC"
+  | "url_ASC"
+  | "url_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -960,6 +962,7 @@ export interface PokemonCreateInput {
   stats?: StatCreateManyInput;
   types?: TypeCreateManyInput;
   weight?: Int;
+  url?: String;
 }
 
 export interface ItemUpdateManyInput {
@@ -2410,6 +2413,20 @@ export interface PokemonWhereInput {
   weight_lte?: Int;
   weight_gt?: Int;
   weight_gte?: Int;
+  url?: String;
+  url_not?: String;
+  url_in?: String[] | String;
+  url_not_in?: String[] | String;
+  url_lt?: String;
+  url_lte?: String;
+  url_gt?: String;
+  url_gte?: String;
+  url_contains?: String;
+  url_not_contains?: String;
+  url_starts_with?: String;
+  url_not_starts_with?: String;
+  url_ends_with?: String;
+  url_not_ends_with?: String;
   AND?: PokemonWhereInput[] | PokemonWhereInput;
   OR?: PokemonWhereInput[] | PokemonWhereInput;
   NOT?: PokemonWhereInput[] | PokemonWhereInput;
@@ -2476,6 +2493,7 @@ export interface PokemonUpdateInput {
   stats?: StatUpdateManyInput;
   types?: TypeUpdateManyInput;
   weight?: Int;
+  url?: String;
 }
 
 export interface MoveWhereInput {
@@ -2528,6 +2546,7 @@ export interface PokemonUpdateManyMutationInput {
   name?: String;
   order?: Int;
   weight?: Int;
+  url?: String;
 }
 
 export interface FormUpdateManyInput {
@@ -3729,6 +3748,7 @@ export interface PokemonPreviousValues {
   name?: String;
   order?: Int;
   weight?: Int;
+  url?: String;
 }
 
 export interface PokemonPreviousValuesPromise
@@ -3742,6 +3762,7 @@ export interface PokemonPreviousValuesPromise
   name: () => Promise<String>;
   order: () => Promise<Int>;
   weight: () => Promise<Int>;
+  url: () => Promise<String>;
 }
 
 export interface PokemonPreviousValuesSubscription
@@ -3755,6 +3776,7 @@ export interface PokemonPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   order: () => Promise<AsyncIterator<Int>>;
   weight: () => Promise<AsyncIterator<Int>>;
+  url: () => Promise<AsyncIterator<String>>;
 }
 
 export interface AggregatePokemon {
@@ -3907,6 +3929,7 @@ export interface Pokemon {
   name?: String;
   order?: Int;
   weight?: Int;
+  url?: String;
 }
 
 export interface PokemonPromise extends Promise<Pokemon>, Fragmentable {
@@ -4017,6 +4040,7 @@ export interface PokemonPromise extends Promise<Pokemon>, Fragmentable {
     }
   ) => T;
   weight: () => Promise<Int>;
+  url: () => Promise<String>;
 }
 
 export interface PokemonSubscription
@@ -4129,6 +4153,7 @@ export interface PokemonSubscription
     }
   ) => T;
   weight: () => Promise<AsyncIterator<Int>>;
+  url: () => Promise<AsyncIterator<String>>;
 }
 
 export interface FormConnection {
