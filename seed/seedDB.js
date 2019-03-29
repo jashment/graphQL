@@ -3,41 +3,37 @@ const { GraphQLClient } = require('graphql-request')
 
 const client = new GraphQLClient('http://localhost:4466')
 
-const mutation = `mutation createPokemon (
+const mutation = `mutation createAnimal (
     $name: String,
-    $height: Int,
-    $weight: Int,
+    $description: String,
     $url: String
 )
 {
-    createPokemon(data: {
+    createAnimal(data: {
       name: $name
-      height: $height
-      weight: $weight
+      description: $description
       url: $url
     }) {
       name
-      height
-      weight
+    description
       url
       id
     }
   }`
 
 const sampleFiles = [
-    'pokemon-data.json',
+    'animal-data.json',
 ]
 
 async function main(inputFiles) {
     const content = fs.readFileSync(`./seed/${inputFiles}`)
-    const allPokemon = JSON.parse(content)
+    const allAnimals = JSON.parse(content)
 
-    allPokemon.forEach(async item => {
+    allAnimals.forEach(async item => {
 
     const variables = {
         name: item.name,
-        height: 50,
-        weight: 1000,
+        description: item.description,
         url: item.url
     }
 
