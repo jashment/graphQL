@@ -1,3 +1,11 @@
+type Animal {
+  id ID! @unique
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  description: String @unique
+}
+
 type User {
   id: ID! @unique
   createdAt: DateTime!
