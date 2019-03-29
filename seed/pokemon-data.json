@@ -156,5 +156,50 @@
         "name": "Tiger",
         "description": "Stretch!",
         "url": "https://images.pexels.com/photos/572861/pexels-photo-572861.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Horse",
+        "description": "He looks like he has...issues",
+        "url": "https://images.pexels.com/photos/58875/pexels-photo-58875.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Seagull",
+        "description": "Mine! Mine! Mine!",
+        "url": "https://images.pexels.com/photos/56618/seagull-sky-holiday-bird-56618.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Reindeer",
+        "description": "Yup, that's definitely a reindeer",
+        "url": "https://images.pexels.com/photos/1855280/pexels-photo-1855280.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Sea Turtle",
+        "description": "Sea turtles are kinda cool.  So serene",
+        "url": "https://images.pexels.com/photos/847393/pexels-photo-847393.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Chimpanzee",
+        "description": "He's mad because he doesn't know how to use tools...",
+        "url": "https://images.pexels.com/photos/33787/chimpanzee-sitting-sad-mammal.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Lion",
+        "description": "King of the beasts bout to sneeze.",
+        "url": "https://images.pexels.com/photos/1106452/pexels-photo-1106452.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Bear",
+        "description": "Lookin for fish.",
+        "url": "https://images.pexels.com/photos/158109/kodiak-brown-bear-adult-portrait-wildlife-158109.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Squirrel",
+        "description": "Squirrel!",
+        "url": "https://images.pexels.com/photos/314865/pexels-photo-314865.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Moose",
+        "description": "There were many of them, many much moosen!",
+        "url": "https://images.pexels.com/photos/76972/moose-moose-rack-male-bull-76972.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     }
 ]
