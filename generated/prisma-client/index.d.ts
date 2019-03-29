@@ -1179,8 +1179,8 @@ export interface StatUpdateManyMutationInput {
 }
 
 export interface AnimalCreateInput {
-  name: String;
-  description: String;
+  name?: String;
+  description?: String;
   url?: String;
 }
 
@@ -3220,10 +3220,10 @@ export interface SpriteEdgeSubscription
 
 export interface Animal {
   id: ID_Output;
-  name: String;
+  name?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
-  description: String;
+  description?: String;
   url?: String;
 }
 
@@ -3311,10 +3311,10 @@ export interface SpeciesConnectionSubscription
 
 export interface AnimalPreviousValues {
   id: ID_Output;
-  name: String;
+  name?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
-  description: String;
+  description?: String;
   url?: String;
 }
 

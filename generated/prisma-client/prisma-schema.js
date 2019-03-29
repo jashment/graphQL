@@ -211,10 +211,10 @@ type AggregateUser {
 
 type Animal {
   id: ID!
-  name: String!
+  name: String
   createdAt: DateTime!
   updatedAt: DateTime!
-  description: String!
+  description: String
   url: String
 }
 
@@ -225,8 +225,8 @@ type AnimalConnection {
 }
 
 input AnimalCreateInput {
-  name: String!
-  description: String!
+  name: String
+  description: String
   url: String
 }
 
@@ -252,10 +252,10 @@ enum AnimalOrderByInput {
 
 type AnimalPreviousValues {
   id: ID!
-  name: String!
+  name: String
   createdAt: DateTime!
   updatedAt: DateTime!
-  description: String!
+  description: String
   url: String
 }
 

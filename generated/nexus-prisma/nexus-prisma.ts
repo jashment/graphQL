@@ -1136,7 +1136,7 @@ export interface AnimalFieldDetails {
     args: {}
     description: string
     list: undefined
-    nullable: false
+    nullable: true
     resolve: undefined
   }
   createdAt: {
@@ -1160,7 +1160,7 @@ export interface AnimalFieldDetails {
     args: {}
     description: string
     list: undefined
-    nullable: false
+    nullable: true
     resolve: undefined
   }
   url: {
@@ -5350,7 +5350,7 @@ export interface AnimalPreviousValuesFieldDetails {
     args: {}
     description: string
     list: undefined
-    nullable: false
+    nullable: true
     resolve: undefined
   }
   createdAt: {
@@ -5374,7 +5374,7 @@ export interface AnimalPreviousValuesFieldDetails {
     args: {}
     description: string
     list: undefined
-    nullable: false
+    nullable: true
     resolve: undefined
   }
   url: {
@@ -8598,8 +8598,8 @@ export type PokemonWhereInputInputObject =
   | { name: 'NOT', alias?: string  } 
   
 export interface AnimalCreateInput {
-  name?: string
-  description?: string
+  name?: string | null
+  description?: string | null
   url?: string | null
 }
 export type AnimalCreateInputInputObject =
