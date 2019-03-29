@@ -157,6 +157,10 @@ type AggregateAbility {
   count: Int!
 }
 
+type AggregateAnimal {
+  count: Int!
+}
+
 type AggregateComment {
   count: Int!
 }
@@ -203,6 +207,169 @@ type AggregateType {
 
 type AggregateUser {
   count: Int!
+}
+
+type Animal {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  description: String!
+  url: String
+}
+
+type AnimalConnection {
+  pageInfo: PageInfo!
+  edges: [AnimalEdge]!
+  aggregate: AggregateAnimal!
+}
+
+input AnimalCreateInput {
+  name: String!
+  description: String!
+  url: String
+}
+
+type AnimalEdge {
+  node: Animal!
+  cursor: String!
+}
+
+enum AnimalOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  description_ASC
+  description_DESC
+  url_ASC
+  url_DESC
+}
+
+type AnimalPreviousValues {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  description: String!
+  url: String
+}
+
+type AnimalSubscriptionPayload {
+  mutation: MutationType!
+  node: Animal
+  updatedFields: [String!]
+  previousValues: AnimalPreviousValues
+}
+
+input AnimalSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: AnimalWhereInput
+  AND: [AnimalSubscriptionWhereInput!]
+  OR: [AnimalSubscriptionWhereInput!]
+  NOT: [AnimalSubscriptionWhereInput!]
+}
+
+input AnimalUpdateInput {
+  name: String
+  description: String
+  url: String
+}
+
+input AnimalUpdateManyMutationInput {
+  name: String
+  description: String
+  url: String
+}
+
+input AnimalWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [AnimalWhereInput!]
+  OR: [AnimalWhereInput!]
+  NOT: [AnimalWhereInput!]
+}
+
+input AnimalWhereUniqueInput {
+  id: ID
+  description: String
 }
 
 type BatchPayload {
@@ -1033,6 +1200,12 @@ type Mutation {
   createAbility(data: AbilityCreateInput!): Ability!
   updateManyAbilities(data: AbilityUpdateManyMutationInput!, where: AbilityWhereInput): BatchPayload!
   deleteManyAbilities(where: AbilityWhereInput): BatchPayload!
+  createAnimal(data: AnimalCreateInput!): Animal!
+  updateAnimal(data: AnimalUpdateInput!, where: AnimalWhereUniqueInput!): Animal
+  updateManyAnimals(data: AnimalUpdateManyMutationInput!, where: AnimalWhereInput): BatchPayload!
+  upsertAnimal(where: AnimalWhereUniqueInput!, create: AnimalCreateInput!, update: AnimalUpdateInput!): Animal!
+  deleteAnimal(where: AnimalWhereUniqueInput!): Animal
+  deleteManyAnimals(where: AnimalWhereInput): BatchPayload!
   createComment(data: CommentCreateInput!): Comment!
   updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateManyComments(data: CommentUpdateManyMutationInput!, where: CommentWhereInput): BatchPayload!
@@ -1609,6 +1782,9 @@ input PostWhereUniqueInput {
 type Query {
   abilities(where: AbilityWhereInput, orderBy: AbilityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Ability]!
   abilitiesConnection(where: AbilityWhereInput, orderBy: AbilityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AbilityConnection!
+  animal(where: AnimalWhereUniqueInput!): Animal
+  animals(where: AnimalWhereInput, orderBy: AnimalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Animal]!
+  animalsConnection(where: AnimalWhereInput, orderBy: AnimalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AnimalConnection!
   comment(where: CommentWhereUniqueInput!): Comment
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
   commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
@@ -2348,6 +2524,7 @@ input StatWhereInput {
 
 type Subscription {
   ability(where: AbilitySubscriptionWhereInput): AbilitySubscriptionPayload
+  animal(where: AnimalSubscriptionWhereInput): AnimalSubscriptionPayload
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
   form(where: FormSubscriptionWhereInput): FormSubscriptionPayload
   gameIndex(where: GameIndexSubscriptionWhereInput): GameIndexSubscriptionPayload

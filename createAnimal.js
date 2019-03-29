@@ -26,13 +26,13 @@
 // main().catch(e => console.error(e))
 
 const { prisma } = require('./generated/prisma-client')
-const {pokedata} = require('./data/animal-data')
+const {animaldata} = require('./data/animal-data')
 
 // A `main` function so that we can use async/await
 async function main() {
-pokedata.forEach(async (animal) => {
+animaldata.forEach(async (animal) => {
     const newAnimal = await prisma
-    .createPokemon({
+    .createAnimal({
       name: animal.name,
       description: animal.description,
       url: animal.url,

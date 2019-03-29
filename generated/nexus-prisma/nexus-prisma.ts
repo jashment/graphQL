@@ -15,11 +15,15 @@ export interface NexusPrismaTypes {
   objectTypes: {
     fields: {
       Query: QueryObject
+      Animal: AnimalObject
+      AnimalConnection: AnimalConnectionObject
+      PageInfo: PageInfoObject
+      AnimalEdge: AnimalEdgeObject
+      AggregateAnimal: AggregateAnimalObject
       User: UserObject
       Post: PostObject
       Comment: CommentObject
       UserConnection: UserConnectionObject
-      PageInfo: PageInfoObject
       UserEdge: UserEdgeObject
       AggregateUser: AggregateUserObject
       PostConnection: PostConnectionObject
@@ -71,6 +75,8 @@ export interface NexusPrismaTypes {
       Mutation: MutationObject
       BatchPayload: BatchPayloadObject
       Subscription: SubscriptionObject
+      AnimalSubscriptionPayload: AnimalSubscriptionPayloadObject
+      AnimalPreviousValues: AnimalPreviousValuesObject
       UserSubscriptionPayload: UserSubscriptionPayloadObject
       UserPreviousValues: UserPreviousValuesObject
       PostSubscriptionPayload: PostSubscriptionPayloadObject
@@ -100,11 +106,15 @@ export interface NexusPrismaTypes {
     }
     fieldsDetails: {
       Query: QueryFieldDetails
+      Animal: AnimalFieldDetails
+      AnimalConnection: AnimalConnectionFieldDetails
+      PageInfo: PageInfoFieldDetails
+      AnimalEdge: AnimalEdgeFieldDetails
+      AggregateAnimal: AggregateAnimalFieldDetails
       User: UserFieldDetails
       Post: PostFieldDetails
       Comment: CommentFieldDetails
       UserConnection: UserConnectionFieldDetails
-      PageInfo: PageInfoFieldDetails
       UserEdge: UserEdgeFieldDetails
       AggregateUser: AggregateUserFieldDetails
       PostConnection: PostConnectionFieldDetails
@@ -156,6 +166,8 @@ export interface NexusPrismaTypes {
       Mutation: MutationFieldDetails
       BatchPayload: BatchPayloadFieldDetails
       Subscription: SubscriptionFieldDetails
+      AnimalSubscriptionPayload: AnimalSubscriptionPayloadFieldDetails
+      AnimalPreviousValues: AnimalPreviousValuesFieldDetails
       UserSubscriptionPayload: UserSubscriptionPayloadFieldDetails
       UserPreviousValues: UserPreviousValuesFieldDetails
       PostSubscriptionPayload: PostSubscriptionPayloadFieldDetails
@@ -186,6 +198,8 @@ export interface NexusPrismaTypes {
   }
   inputTypes: {
     fields: {
+      AnimalWhereUniqueInput: AnimalWhereUniqueInputInputObject
+      AnimalWhereInput: AnimalWhereInputInputObject
       UserWhereUniqueInput: UserWhereUniqueInputInputObject
       PostWhereInput: PostWhereInputInputObject
       UserWhereInput: UserWhereInputInputObject
@@ -203,6 +217,9 @@ export interface NexusPrismaTypes {
       StatWhereInput: StatWhereInputInputObject
       TypeWhereInput: TypeWhereInputInputObject
       PokemonWhereInput: PokemonWhereInputInputObject
+      AnimalCreateInput: AnimalCreateInputInputObject
+      AnimalUpdateInput: AnimalUpdateInputInputObject
+      AnimalUpdateManyMutationInput: AnimalUpdateManyMutationInputInputObject
       UserCreateInput: UserCreateInputInputObject
       PostCreateManyWithoutAuthorInput: PostCreateManyWithoutAuthorInputInputObject
       PostCreateWithoutAuthorInput: PostCreateWithoutAuthorInputInputObject
@@ -304,6 +321,7 @@ export interface NexusPrismaTypes {
       SpriteUpdateManyMutationInput: SpriteUpdateManyMutationInputInputObject
       StatUpdateManyMutationInput: StatUpdateManyMutationInputInputObject
       TypeUpdateManyMutationInput: TypeUpdateManyMutationInputInputObject
+      AnimalSubscriptionWhereInput: AnimalSubscriptionWhereInputInputObject
       UserSubscriptionWhereInput: UserSubscriptionWhereInputInputObject
       PostSubscriptionWhereInput: PostSubscriptionWhereInputInputObject
       CommentSubscriptionWhereInput: CommentSubscriptionWhereInputInputObject
@@ -320,6 +338,7 @@ export interface NexusPrismaTypes {
     }
   }
   enumTypes: {
+    AnimalOrderByInput: AnimalOrderByInputValues,
     PostOrderByInput: PostOrderByInputValues,
     CommentOrderByInput: CommentOrderByInputValues,
     UserOrderByInput: UserOrderByInputValues,
@@ -341,6 +360,9 @@ export interface NexusPrismaTypes {
 
 type QueryObject =
   | QueryFields
+  | { name: 'animal', args?: QueryAnimalArgs[] | false, alias?: string  } 
+  | { name: 'animals', args?: QueryAnimalsArgs[] | false, alias?: string  } 
+  | { name: 'animalsConnection', args?: QueryAnimalsConnectionArgs[] | false, alias?: string  } 
   | { name: 'user', args?: QueryUserArgs[] | false, alias?: string  } 
   | { name: 'users', args?: QueryUsersArgs[] | false, alias?: string  } 
   | { name: 'usersConnection', args?: QueryUsersConnectionArgs[] | false, alias?: string  } 
@@ -373,6 +395,9 @@ type QueryObject =
   | { name: 'typesConnection', args?: QueryTypesConnectionArgs[] | false, alias?: string  } 
 
 type QueryFields =
+  | 'animal'
+  | 'animals'
+  | 'animalsConnection'
   | 'user'
   | 'users'
   | 'usersConnection'
@@ -405,6 +430,24 @@ type QueryFields =
   | 'typesConnection'
 
 
+type QueryAnimalArgs =
+  | 'where'
+type QueryAnimalsArgs =
+  | 'where'
+  | 'orderBy'
+  | 'skip'
+  | 'after'
+  | 'before'
+  | 'first'
+  | 'last'
+type QueryAnimalsConnectionArgs =
+  | 'where'
+  | 'orderBy'
+  | 'skip'
+  | 'after'
+  | 'before'
+  | 'first'
+  | 'last'
 type QueryUserArgs =
   | 'where'
 type QueryUsersArgs =
@@ -624,6 +667,45 @@ type QueryTypesConnectionArgs =
   
 
 export interface QueryFieldDetails {
+  animal: {
+    type: 'Animal'
+    args: Record<QueryAnimalArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where: AnimalWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Animal | null> | prisma.Animal | null
+  }
+  animals: {
+    type: 'Animal'
+    args: Record<QueryAnimalsArgs, core.NexusArgDef<string>>
+    description: string
+    list: true
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where?: AnimalWhereInput | null, orderBy?: prisma.AnimalOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Animal[]> | prisma.Animal[]
+  }
+  animalsConnection: {
+    type: 'AnimalConnection'
+    args: Record<QueryAnimalsConnectionArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where?: AnimalWhereInput | null, orderBy?: prisma.AnimalOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.AnimalConnection> | prisma.AnimalConnection
+  }
   user: {
     type: 'User'
     args: Record<QueryUserArgs, core.NexusArgDef<string>>
@@ -1017,6 +1099,261 @@ export interface QueryFieldDetails {
 }
   
 
+// Types for Animal
+
+type AnimalObject =
+  | AnimalFields
+  | { name: 'id', args?: [] | false, alias?: string  } 
+  | { name: 'name', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
+  | { name: 'description', args?: [] | false, alias?: string  } 
+  | { name: 'url', args?: [] | false, alias?: string  } 
+
+type AnimalFields =
+  | 'id'
+  | 'name'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'description'
+  | 'url'
+
+
+
+  
+
+export interface AnimalFieldDetails {
+  id: {
+    type: 'ID'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  name: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  description: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  url: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+}
+  
+
+// Types for AnimalConnection
+
+type AnimalConnectionObject =
+  | AnimalConnectionFields
+  | { name: 'pageInfo', args?: [] | false, alias?: string  } 
+  | { name: 'edges', args?: [] | false, alias?: string  } 
+  | { name: 'aggregate', args?: [] | false, alias?: string  } 
+
+type AnimalConnectionFields =
+  | 'pageInfo'
+  | 'edges'
+  | 'aggregate'
+
+
+
+  
+
+export interface AnimalConnectionFieldDetails {
+  pageInfo: {
+    type: 'PageInfo'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"AnimalConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.PageInfo> | prisma.PageInfo
+  }
+  edges: {
+    type: 'AnimalEdge'
+    args: {}
+    description: string
+    list: true
+    nullable: false
+    resolve: (
+      root: core.RootValue<"AnimalConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.AnimalEdge[]> | prisma.AnimalEdge[]
+  }
+  aggregate: {
+    type: 'AggregateAnimal'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"AnimalConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.AggregateAnimal> | prisma.AggregateAnimal
+  }
+}
+  
+
+// Types for PageInfo
+
+type PageInfoObject =
+  | PageInfoFields
+  | { name: 'hasNextPage', args?: [] | false, alias?: string  } 
+  | { name: 'hasPreviousPage', args?: [] | false, alias?: string  } 
+  | { name: 'startCursor', args?: [] | false, alias?: string  } 
+  | { name: 'endCursor', args?: [] | false, alias?: string  } 
+
+type PageInfoFields =
+  | 'hasNextPage'
+  | 'hasPreviousPage'
+  | 'startCursor'
+  | 'endCursor'
+
+
+
+  
+
+export interface PageInfoFieldDetails {
+  hasNextPage: {
+    type: 'Boolean'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  hasPreviousPage: {
+    type: 'Boolean'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  startCursor: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  endCursor: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+}
+  
+
+// Types for AnimalEdge
+
+type AnimalEdgeObject =
+  | AnimalEdgeFields
+  | { name: 'node', args?: [] | false, alias?: string  } 
+  | { name: 'cursor', args?: [] | false, alias?: string  } 
+
+type AnimalEdgeFields =
+  | 'node'
+  | 'cursor'
+
+
+
+  
+
+export interface AnimalEdgeFieldDetails {
+  node: {
+    type: 'Animal'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"AnimalEdge">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Animal> | prisma.Animal
+  }
+  cursor: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+}
+  
+
+// Types for AggregateAnimal
+
+type AggregateAnimalObject =
+  | AggregateAnimalFields
+  | { name: 'count', args?: [] | false, alias?: string  } 
+
+type AggregateAnimalFields =
+  | 'count'
+
+
+
+  
+
+export interface AggregateAnimalFieldDetails {
+  count: {
+    type: 'Int'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+}
+  
+
 // Types for User
 
 type UserObject =
@@ -1332,61 +1669,6 @@ export interface UserConnectionFieldDetails {
       context: core.GetGen<"context">,
       info?: GraphQLResolveInfo
     ) => Promise<prisma.AggregateUser> | prisma.AggregateUser
-  }
-}
-  
-
-// Types for PageInfo
-
-type PageInfoObject =
-  | PageInfoFields
-  | { name: 'hasNextPage', args?: [] | false, alias?: string  } 
-  | { name: 'hasPreviousPage', args?: [] | false, alias?: string  } 
-  | { name: 'startCursor', args?: [] | false, alias?: string  } 
-  | { name: 'endCursor', args?: [] | false, alias?: string  } 
-
-type PageInfoFields =
-  | 'hasNextPage'
-  | 'hasPreviousPage'
-  | 'startCursor'
-  | 'endCursor'
-
-
-
-  
-
-export interface PageInfoFieldDetails {
-  hasNextPage: {
-    type: 'Boolean'
-    args: {}
-    description: string
-    list: undefined
-    nullable: false
-    resolve: undefined
-  }
-  hasPreviousPage: {
-    type: 'Boolean'
-    args: {}
-    description: string
-    list: undefined
-    nullable: false
-    resolve: undefined
-  }
-  startCursor: {
-    type: 'String'
-    args: {}
-    description: string
-    list: undefined
-    nullable: true
-    resolve: undefined
-  }
-  endCursor: {
-    type: 'String'
-    args: {}
-    description: string
-    list: undefined
-    nullable: true
-    resolve: undefined
   }
 }
   
@@ -3676,6 +3958,12 @@ export interface AggregateTypeFieldDetails {
 
 type MutationObject =
   | MutationFields
+  | { name: 'createAnimal', args?: MutationCreateAnimalArgs[] | false, alias?: string  } 
+  | { name: 'updateAnimal', args?: MutationUpdateAnimalArgs[] | false, alias?: string  } 
+  | { name: 'updateManyAnimals', args?: MutationUpdateManyAnimalsArgs[] | false, alias?: string  } 
+  | { name: 'upsertAnimal', args?: MutationUpsertAnimalArgs[] | false, alias?: string  } 
+  | { name: 'deleteAnimal', args?: MutationDeleteAnimalArgs[] | false, alias?: string  } 
+  | { name: 'deleteManyAnimals', args?: MutationDeleteManyAnimalsArgs[] | false, alias?: string  } 
   | { name: 'createUser', args?: MutationCreateUserArgs[] | false, alias?: string  } 
   | { name: 'updateUser', args?: MutationUpdateUserArgs[] | false, alias?: string  } 
   | { name: 'updateManyUsers', args?: MutationUpdateManyUsersArgs[] | false, alias?: string  } 
@@ -3729,6 +4017,12 @@ type MutationObject =
   | { name: 'deleteManyTypes', args?: MutationDeleteManyTypesArgs[] | false, alias?: string  } 
 
 type MutationFields =
+  | 'createAnimal'
+  | 'updateAnimal'
+  | 'updateManyAnimals'
+  | 'upsertAnimal'
+  | 'deleteAnimal'
+  | 'deleteManyAnimals'
   | 'createUser'
   | 'updateUser'
   | 'updateManyUsers'
@@ -3782,6 +4076,22 @@ type MutationFields =
   | 'deleteManyTypes'
 
 
+type MutationCreateAnimalArgs =
+  | 'data'
+type MutationUpdateAnimalArgs =
+  | 'data'
+  | 'where'
+type MutationUpdateManyAnimalsArgs =
+  | 'data'
+  | 'where'
+type MutationUpsertAnimalArgs =
+  | 'where'
+  | 'create'
+  | 'update'
+type MutationDeleteAnimalArgs =
+  | 'where'
+type MutationDeleteManyAnimalsArgs =
+  | 'where'
 type MutationCreateUserArgs =
   | 'data'
 type MutationUpdateUserArgs =
@@ -3912,6 +4222,84 @@ type MutationDeleteManyTypesArgs =
   
 
 export interface MutationFieldDetails {
+  createAnimal: {
+    type: 'Animal'
+    args: Record<MutationCreateAnimalArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: AnimalCreateInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Animal> | prisma.Animal
+  }
+  updateAnimal: {
+    type: 'Animal'
+    args: Record<MutationUpdateAnimalArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: AnimalUpdateInput, where: AnimalWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Animal | null> | prisma.Animal | null
+  }
+  updateManyAnimals: {
+    type: 'BatchPayload'
+    args: Record<MutationUpdateManyAnimalsArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: AnimalUpdateManyMutationInput, where?: AnimalWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.BatchPayload> | prisma.BatchPayload
+  }
+  upsertAnimal: {
+    type: 'Animal'
+    args: Record<MutationUpsertAnimalArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where: AnimalWhereUniqueInput, create: AnimalCreateInput, update: AnimalUpdateInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Animal> | prisma.Animal
+  }
+  deleteAnimal: {
+    type: 'Animal'
+    args: Record<MutationDeleteAnimalArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where: AnimalWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Animal | null> | prisma.Animal | null
+  }
+  deleteManyAnimals: {
+    type: 'BatchPayload'
+    args: Record<MutationDeleteManyAnimalsArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where?: AnimalWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.BatchPayload> | prisma.BatchPayload
+  }
   createUser: {
     type: 'User'
     args: Record<MutationCreateUserArgs, core.NexusArgDef<string>>
@@ -4607,6 +4995,7 @@ export interface BatchPayloadFieldDetails {
 
 type SubscriptionObject =
   | SubscriptionFields
+  | { name: 'animal', args?: SubscriptionAnimalArgs[] | false, alias?: string  } 
   | { name: 'user', args?: SubscriptionUserArgs[] | false, alias?: string  } 
   | { name: 'post', args?: SubscriptionPostArgs[] | false, alias?: string  } 
   | { name: 'comment', args?: SubscriptionCommentArgs[] | false, alias?: string  } 
@@ -4622,6 +5011,7 @@ type SubscriptionObject =
   | { name: 'type', args?: SubscriptionTypeArgs[] | false, alias?: string  } 
 
 type SubscriptionFields =
+  | 'animal'
   | 'user'
   | 'post'
   | 'comment'
@@ -4637,6 +5027,8 @@ type SubscriptionFields =
   | 'type'
 
 
+type SubscriptionAnimalArgs =
+  | 'where'
 type SubscriptionUserArgs =
   | 'where'
 type SubscriptionPostArgs =
@@ -4666,6 +5058,19 @@ type SubscriptionTypeArgs =
   
 
 export interface SubscriptionFieldDetails {
+  animal: {
+    type: 'AnimalSubscriptionPayload'
+    args: Record<SubscriptionAnimalArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Subscription">,
+      args: { where?: AnimalSubscriptionWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.AnimalSubscriptionPayload | null> | prisma.AnimalSubscriptionPayload | null
+  }
   user: {
     type: 'UserSubscriptionPayload'
     args: Record<SubscriptionUserArgs, core.NexusArgDef<string>>
@@ -4834,6 +5239,151 @@ export interface SubscriptionFieldDetails {
       context: core.GetGen<"context">,
       info?: GraphQLResolveInfo
     ) => Promise<prisma.TypeSubscriptionPayload | null> | prisma.TypeSubscriptionPayload | null
+  }
+}
+  
+
+// Types for AnimalSubscriptionPayload
+
+type AnimalSubscriptionPayloadObject =
+  | AnimalSubscriptionPayloadFields
+  | { name: 'mutation', args?: [] | false, alias?: string  } 
+  | { name: 'node', args?: [] | false, alias?: string  } 
+  | { name: 'updatedFields', args?: [] | false, alias?: string  } 
+  | { name: 'previousValues', args?: [] | false, alias?: string  } 
+
+type AnimalSubscriptionPayloadFields =
+  | 'mutation'
+  | 'node'
+  | 'updatedFields'
+  | 'previousValues'
+
+
+
+  
+
+export interface AnimalSubscriptionPayloadFieldDetails {
+  mutation: {
+    type: 'MutationType'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"AnimalSubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.MutationType> | prisma.MutationType
+  }
+  node: {
+    type: 'Animal'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"AnimalSubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Animal | null> | prisma.Animal | null
+  }
+  updatedFields: {
+    type: 'String'
+    args: {}
+    description: string
+    list: true
+    nullable: false
+    resolve: undefined
+  }
+  previousValues: {
+    type: 'AnimalPreviousValues'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"AnimalSubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.AnimalPreviousValues | null> | prisma.AnimalPreviousValues | null
+  }
+}
+  
+
+// Types for AnimalPreviousValues
+
+type AnimalPreviousValuesObject =
+  | AnimalPreviousValuesFields
+  | { name: 'id', args?: [] | false, alias?: string  } 
+  | { name: 'name', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
+  | { name: 'description', args?: [] | false, alias?: string  } 
+  | { name: 'url', args?: [] | false, alias?: string  } 
+
+type AnimalPreviousValuesFields =
+  | 'id'
+  | 'name'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'description'
+  | 'url'
+
+
+
+  
+
+export interface AnimalPreviousValuesFieldDetails {
+  id: {
+    type: 'ID'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  name: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  description: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  url: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
   }
 }
   
@@ -6444,6 +6994,170 @@ export interface TypePreviousValuesFieldDetails {
   
 
 
+export interface AnimalWhereUniqueInput {
+  id?: string | null
+  description?: string | null
+}
+export type AnimalWhereUniqueInputInputObject =
+  | Extract<keyof AnimalWhereUniqueInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'description', alias?: string  } 
+  
+export interface AnimalWhereInput {
+  id?: string | null
+  id_not?: string | null
+  id_in?: string[]
+  id_not_in?: string[]
+  id_lt?: string | null
+  id_lte?: string | null
+  id_gt?: string | null
+  id_gte?: string | null
+  id_contains?: string | null
+  id_not_contains?: string | null
+  id_starts_with?: string | null
+  id_not_starts_with?: string | null
+  id_ends_with?: string | null
+  id_not_ends_with?: string | null
+  name?: string | null
+  name_not?: string | null
+  name_in?: string[]
+  name_not_in?: string[]
+  name_lt?: string | null
+  name_lte?: string | null
+  name_gt?: string | null
+  name_gte?: string | null
+  name_contains?: string | null
+  name_not_contains?: string | null
+  name_starts_with?: string | null
+  name_not_starts_with?: string | null
+  name_ends_with?: string | null
+  name_not_ends_with?: string | null
+  createdAt?: string | null
+  createdAt_not?: string | null
+  createdAt_in?: string[]
+  createdAt_not_in?: string[]
+  createdAt_lt?: string | null
+  createdAt_lte?: string | null
+  createdAt_gt?: string | null
+  createdAt_gte?: string | null
+  updatedAt?: string | null
+  updatedAt_not?: string | null
+  updatedAt_in?: string[]
+  updatedAt_not_in?: string[]
+  updatedAt_lt?: string | null
+  updatedAt_lte?: string | null
+  updatedAt_gt?: string | null
+  updatedAt_gte?: string | null
+  description?: string | null
+  description_not?: string | null
+  description_in?: string[]
+  description_not_in?: string[]
+  description_lt?: string | null
+  description_lte?: string | null
+  description_gt?: string | null
+  description_gte?: string | null
+  description_contains?: string | null
+  description_not_contains?: string | null
+  description_starts_with?: string | null
+  description_not_starts_with?: string | null
+  description_ends_with?: string | null
+  description_not_ends_with?: string | null
+  url?: string | null
+  url_not?: string | null
+  url_in?: string[]
+  url_not_in?: string[]
+  url_lt?: string | null
+  url_lte?: string | null
+  url_gt?: string | null
+  url_gte?: string | null
+  url_contains?: string | null
+  url_not_contains?: string | null
+  url_starts_with?: string | null
+  url_not_starts_with?: string | null
+  url_ends_with?: string | null
+  url_not_ends_with?: string | null
+  AND?: AnimalWhereInput[]
+  OR?: AnimalWhereInput[]
+  NOT?: AnimalWhereInput[]
+}
+export type AnimalWhereInputInputObject =
+  | Extract<keyof AnimalWhereInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'id_not', alias?: string  } 
+  | { name: 'id_in', alias?: string  } 
+  | { name: 'id_not_in', alias?: string  } 
+  | { name: 'id_lt', alias?: string  } 
+  | { name: 'id_lte', alias?: string  } 
+  | { name: 'id_gt', alias?: string  } 
+  | { name: 'id_gte', alias?: string  } 
+  | { name: 'id_contains', alias?: string  } 
+  | { name: 'id_not_contains', alias?: string  } 
+  | { name: 'id_starts_with', alias?: string  } 
+  | { name: 'id_not_starts_with', alias?: string  } 
+  | { name: 'id_ends_with', alias?: string  } 
+  | { name: 'id_not_ends_with', alias?: string  } 
+  | { name: 'name', alias?: string  } 
+  | { name: 'name_not', alias?: string  } 
+  | { name: 'name_in', alias?: string  } 
+  | { name: 'name_not_in', alias?: string  } 
+  | { name: 'name_lt', alias?: string  } 
+  | { name: 'name_lte', alias?: string  } 
+  | { name: 'name_gt', alias?: string  } 
+  | { name: 'name_gte', alias?: string  } 
+  | { name: 'name_contains', alias?: string  } 
+  | { name: 'name_not_contains', alias?: string  } 
+  | { name: 'name_starts_with', alias?: string  } 
+  | { name: 'name_not_starts_with', alias?: string  } 
+  | { name: 'name_ends_with', alias?: string  } 
+  | { name: 'name_not_ends_with', alias?: string  } 
+  | { name: 'createdAt', alias?: string  } 
+  | { name: 'createdAt_not', alias?: string  } 
+  | { name: 'createdAt_in', alias?: string  } 
+  | { name: 'createdAt_not_in', alias?: string  } 
+  | { name: 'createdAt_lt', alias?: string  } 
+  | { name: 'createdAt_lte', alias?: string  } 
+  | { name: 'createdAt_gt', alias?: string  } 
+  | { name: 'createdAt_gte', alias?: string  } 
+  | { name: 'updatedAt', alias?: string  } 
+  | { name: 'updatedAt_not', alias?: string  } 
+  | { name: 'updatedAt_in', alias?: string  } 
+  | { name: 'updatedAt_not_in', alias?: string  } 
+  | { name: 'updatedAt_lt', alias?: string  } 
+  | { name: 'updatedAt_lte', alias?: string  } 
+  | { name: 'updatedAt_gt', alias?: string  } 
+  | { name: 'updatedAt_gte', alias?: string  } 
+  | { name: 'description', alias?: string  } 
+  | { name: 'description_not', alias?: string  } 
+  | { name: 'description_in', alias?: string  } 
+  | { name: 'description_not_in', alias?: string  } 
+  | { name: 'description_lt', alias?: string  } 
+  | { name: 'description_lte', alias?: string  } 
+  | { name: 'description_gt', alias?: string  } 
+  | { name: 'description_gte', alias?: string  } 
+  | { name: 'description_contains', alias?: string  } 
+  | { name: 'description_not_contains', alias?: string  } 
+  | { name: 'description_starts_with', alias?: string  } 
+  | { name: 'description_not_starts_with', alias?: string  } 
+  | { name: 'description_ends_with', alias?: string  } 
+  | { name: 'description_not_ends_with', alias?: string  } 
+  | { name: 'url', alias?: string  } 
+  | { name: 'url_not', alias?: string  } 
+  | { name: 'url_in', alias?: string  } 
+  | { name: 'url_not_in', alias?: string  } 
+  | { name: 'url_lt', alias?: string  } 
+  | { name: 'url_lte', alias?: string  } 
+  | { name: 'url_gt', alias?: string  } 
+  | { name: 'url_gte', alias?: string  } 
+  | { name: 'url_contains', alias?: string  } 
+  | { name: 'url_not_contains', alias?: string  } 
+  | { name: 'url_starts_with', alias?: string  } 
+  | { name: 'url_not_starts_with', alias?: string  } 
+  | { name: 'url_ends_with', alias?: string  } 
+  | { name: 'url_not_ends_with', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
 export interface UserWhereUniqueInput {
   id?: string | null
   email?: string | null
@@ -7882,6 +8596,39 @@ export type PokemonWhereInputInputObject =
   | { name: 'AND', alias?: string  } 
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 
+  
+export interface AnimalCreateInput {
+  name?: string
+  description?: string
+  url?: string | null
+}
+export type AnimalCreateInputInputObject =
+  | Extract<keyof AnimalCreateInput, string>
+  | { name: 'name', alias?: string  } 
+  | { name: 'description', alias?: string  } 
+  | { name: 'url', alias?: string  } 
+  
+export interface AnimalUpdateInput {
+  name?: string | null
+  description?: string | null
+  url?: string | null
+}
+export type AnimalUpdateInputInputObject =
+  | Extract<keyof AnimalUpdateInput, string>
+  | { name: 'name', alias?: string  } 
+  | { name: 'description', alias?: string  } 
+  | { name: 'url', alias?: string  } 
+  
+export interface AnimalUpdateManyMutationInput {
+  name?: string | null
+  description?: string | null
+  url?: string | null
+}
+export type AnimalUpdateManyMutationInputInputObject =
+  | Extract<keyof AnimalUpdateManyMutationInput, string>
+  | { name: 'name', alias?: string  } 
+  | { name: 'description', alias?: string  } 
+  | { name: 'url', alias?: string  } 
   
 export interface UserCreateInput {
   email?: string | null
@@ -9902,6 +10649,27 @@ export type TypeUpdateManyMutationInputInputObject =
   | { name: 'name', alias?: string  } 
   | { name: 'url', alias?: string  } 
   
+export interface AnimalSubscriptionWhereInput {
+  mutation_in?: prisma.MutationType[]
+  updatedFields_contains?: string | null
+  updatedFields_contains_every?: string[]
+  updatedFields_contains_some?: string[]
+  node?: AnimalWhereInput | null
+  AND?: AnimalSubscriptionWhereInput[]
+  OR?: AnimalSubscriptionWhereInput[]
+  NOT?: AnimalSubscriptionWhereInput[]
+}
+export type AnimalSubscriptionWhereInputInputObject =
+  | Extract<keyof AnimalSubscriptionWhereInput, string>
+  | { name: 'mutation_in', alias?: string  } 
+  | { name: 'updatedFields_contains', alias?: string  } 
+  | { name: 'updatedFields_contains_every', alias?: string  } 
+  | { name: 'updatedFields_contains_some', alias?: string  } 
+  | { name: 'node', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
 export interface UserSubscriptionWhereInput {
   mutation_in?: prisma.MutationType[]
   updatedFields_contains?: string | null
@@ -10176,6 +10944,20 @@ export type TypeSubscriptionWhereInputInputObject =
   | { name: 'NOT', alias?: string  } 
   
 
+export type AnimalOrderByInputValues =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'name_ASC'
+  | 'name_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | 'description_ASC'
+  | 'description_DESC'
+  | 'url_ASC'
+  | 'url_DESC'
+  
 export type PostOrderByInputValues =
   | 'id_ASC'
   | 'id_DESC'

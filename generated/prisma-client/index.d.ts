@@ -15,6 +15,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 
 export interface Exists {
   ability: (where?: AbilityWhereInput) => Promise<boolean>;
+  animal: (where?: AnimalWhereInput) => Promise<boolean>;
   comment: (where?: CommentWhereInput) => Promise<boolean>;
   form: (where?: FormWhereInput) => Promise<boolean>;
   gameIndex: (where?: GameIndexWhereInput) => Promise<boolean>;
@@ -70,6 +71,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => AbilityConnectionPromise;
+  animal: (where: AnimalWhereUniqueInput) => AnimalPromise;
+  animals: (
+    args?: {
+      where?: AnimalWhereInput;
+      orderBy?: AnimalOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Animal>;
+  animalsConnection: (
+    args?: {
+      where?: AnimalWhereInput;
+      orderBy?: AnimalOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => AnimalConnectionPromise;
   comment: (where: CommentWhereUniqueInput) => CommentPromise;
   comments: (
     args?: {
@@ -349,6 +373,22 @@ export interface Prisma {
     args: { data: AbilityUpdateManyMutationInput; where?: AbilityWhereInput }
   ) => BatchPayloadPromise;
   deleteManyAbilities: (where?: AbilityWhereInput) => BatchPayloadPromise;
+  createAnimal: (data: AnimalCreateInput) => AnimalPromise;
+  updateAnimal: (
+    args: { data: AnimalUpdateInput; where: AnimalWhereUniqueInput }
+  ) => AnimalPromise;
+  updateManyAnimals: (
+    args: { data: AnimalUpdateManyMutationInput; where?: AnimalWhereInput }
+  ) => BatchPayloadPromise;
+  upsertAnimal: (
+    args: {
+      where: AnimalWhereUniqueInput;
+      create: AnimalCreateInput;
+      update: AnimalUpdateInput;
+    }
+  ) => AnimalPromise;
+  deleteAnimal: (where: AnimalWhereUniqueInput) => AnimalPromise;
+  deleteManyAnimals: (where?: AnimalWhereInput) => BatchPayloadPromise;
   createComment: (data: CommentCreateInput) => CommentPromise;
   updateComment: (
     args: { data: CommentUpdateInput; where: CommentWhereUniqueInput }
@@ -468,6 +508,9 @@ export interface Subscription {
   ability: (
     where?: AbilitySubscriptionWhereInput
   ) => AbilitySubscriptionPayloadSubscription;
+  animal: (
+    where?: AnimalSubscriptionWhereInput
+  ) => AnimalSubscriptionPayloadSubscription;
   comment: (
     where?: CommentSubscriptionWhereInput
   ) => CommentSubscriptionPayloadSubscription;
@@ -514,23 +557,11 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type SpriteOrderByInput =
-  | "back_default_ASC"
-  | "back_default_DESC"
-  | "back_female_ASC"
-  | "back_female_DESC"
-  | "back_shiny_ASC"
-  | "back_shiny_DESC"
-  | "back_shiny_female_ASC"
-  | "back_shiny_female_DESC"
-  | "front_default_ASC"
-  | "front_default_DESC"
-  | "front_female_ASC"
-  | "front_female_DESC"
-  | "front_shiny_ASC"
-  | "front_shiny_DESC"
-  | "front_shiny_female_ASC"
-  | "front_shiny_female_DESC"
+export type SpeciesOrderByInput =
+  | "name_ASC"
+  | "name_DESC"
+  | "url_ASC"
+  | "url_DESC"
   | "id_ASC"
   | "id_DESC"
   | "createdAt_ASC"
@@ -550,7 +581,7 @@ export type PostOrderByInput =
   | "published_ASC"
   | "published_DESC";
 
-export type SpeciesOrderByInput =
+export type MoveOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "url_ASC"
@@ -564,7 +595,7 @@ export type SpeciesOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type MoveOrderByInput =
+export type ItemOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "url_ASC"
@@ -600,6 +631,20 @@ export type PokemonOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type AnimalOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "url_ASC"
+  | "url_DESC";
+
 export type CommentOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -623,18 +668,6 @@ export type FormOrderByInput =
   | "updatedAt_DESC";
 
 export type GameIndexOrderByInput =
-  | "name_ASC"
-  | "name_DESC"
-  | "url_ASC"
-  | "url_DESC"
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
-export type ItemOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "url_ASC"
@@ -684,6 +717,30 @@ export type AbilityOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type SpriteOrderByInput =
+  | "back_default_ASC"
+  | "back_default_DESC"
+  | "back_female_ASC"
+  | "back_female_DESC"
+  | "back_shiny_ASC"
+  | "back_shiny_DESC"
+  | "back_shiny_female_ASC"
+  | "back_shiny_female_DESC"
+  | "front_default_ASC"
+  | "front_default_DESC"
+  | "front_female_ASC"
+  | "front_female_DESC"
+  | "front_shiny_ASC"
+  | "front_shiny_DESC"
+  | "front_shiny_female_ASC"
+  | "front_shiny_female_DESC"
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type StatOrderByInput =
   | "base_stat_ASC"
   | "base_stat_DESC"
@@ -700,9 +757,10 @@ export type StatOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
+export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput;
+  update: PostUpdateWithoutAuthorDataInput;
+  create: PostCreateWithoutAuthorInput;
 }
 
 export interface AbilityWhereInput {
@@ -739,56 +797,17 @@ export interface AbilityWhereInput {
   NOT?: AbilityWhereInput[] | AbilityWhereInput;
 }
 
-export interface MoveCreateInput {
-  name?: String;
-  url?: String;
+export interface ItemUpdateManyWithWhereNestedInput {
+  where: ItemScalarWhereInput;
+  data: ItemUpdateManyDataInput;
 }
 
-export interface UserWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
+export interface AbilityUpdateManyWithWhereNestedInput {
+  where: AbilityScalarWhereInput;
+  data: AbilityUpdateManyDataInput;
+}
+
+export interface ItemScalarWhereInput {
   name?: String;
   name_not?: String;
   name_in?: String[] | String;
@@ -803,15 +822,50 @@ export interface UserWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
-  posts_every?: PostWhereInput;
-  posts_some?: PostWhereInput;
-  posts_none?: PostWhereInput;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
+  url?: String;
+  url_not?: String;
+  url_in?: String[] | String;
+  url_not_in?: String[] | String;
+  url_lt?: String;
+  url_lte?: String;
+  url_gt?: String;
+  url_gte?: String;
+  url_contains?: String;
+  url_not_contains?: String;
+  url_starts_with?: String;
+  url_not_starts_with?: String;
+  url_ends_with?: String;
+  url_not_ends_with?: String;
+  AND?: ItemScalarWhereInput[] | ItemScalarWhereInput;
+  OR?: ItemScalarWhereInput[] | ItemScalarWhereInput;
+  NOT?: ItemScalarWhereInput[] | ItemScalarWhereInput;
 }
 
-export interface MoveUpdateManyMutationInput {
+export interface GameIndexUpdateManyMutationInput {
+  name?: String;
+  url?: String;
+}
+
+export interface ItemUpdateManyInput {
+  create?: ItemCreateInput[] | ItemCreateInput;
+  deleteMany?: ItemScalarWhereInput[] | ItemScalarWhereInput;
+  updateMany?:
+    | ItemUpdateManyWithWhereNestedInput[]
+    | ItemUpdateManyWithWhereNestedInput;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+}
+
+export interface GameIndexUpdateManyDataInput {
   name?: String;
   url?: String;
 }
@@ -872,186 +926,60 @@ export interface PostWhereInput {
   NOT?: PostWhereInput[] | PostWhereInput;
 }
 
-export interface ItemUpdateManyWithWhereNestedInput {
-  where: ItemScalarWhereInput;
-  data: ItemUpdateManyDataInput;
-}
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
 
-export interface FormScalarWhereInput {
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  url?: String;
-  url_not?: String;
-  url_in?: String[] | String;
-  url_not_in?: String[] | String;
-  url_lt?: String;
-  url_lte?: String;
-  url_gt?: String;
-  url_gte?: String;
-  url_contains?: String;
-  url_not_contains?: String;
-  url_starts_with?: String;
-  url_not_starts_with?: String;
-  url_ends_with?: String;
-  url_not_ends_with?: String;
-  AND?: FormScalarWhereInput[] | FormScalarWhereInput;
-  OR?: FormScalarWhereInput[] | FormScalarWhereInput;
-  NOT?: FormScalarWhereInput[] | FormScalarWhereInput;
-}
-
-export interface ItemScalarWhereInput {
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  url?: String;
-  url_not?: String;
-  url_in?: String[] | String;
-  url_not_in?: String[] | String;
-  url_lt?: String;
-  url_lte?: String;
-  url_gt?: String;
-  url_gte?: String;
-  url_contains?: String;
-  url_not_contains?: String;
-  url_starts_with?: String;
-  url_not_starts_with?: String;
-  url_ends_with?: String;
-  url_not_ends_with?: String;
-  AND?: ItemScalarWhereInput[] | ItemScalarWhereInput;
-  OR?: ItemScalarWhereInput[] | ItemScalarWhereInput;
-  NOT?: ItemScalarWhereInput[] | ItemScalarWhereInput;
-}
-
-export interface PokemonCreateInput {
-  abilities?: AbilityCreateManyInput;
-  base_experience?: Int;
-  forms?: FormCreateManyInput;
-  game_indices?: GameIndexCreateManyInput;
-  held_items?: ItemCreateManyInput;
-  height?: Int;
-  is_default?: Boolean;
-  location_area_encounters?: String;
-  moves?: MoveCreateManyInput;
-  name?: String;
-  order?: Int;
-  species?: SpeciesCreateManyInput;
-  sprites?: SpriteCreateManyInput;
-  stats?: StatCreateManyInput;
-  types?: TypeCreateManyInput;
-  weight?: Int;
-  url?: String;
-}
-
-export interface ItemUpdateManyInput {
-  create?: ItemCreateInput[] | ItemCreateInput;
-  deleteMany?: ItemScalarWhereInput[] | ItemScalarWhereInput;
-  updateMany?:
-    | ItemUpdateManyWithWhereNestedInput[]
-    | ItemUpdateManyWithWhereNestedInput;
-}
-
-export interface TypeSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: TypeWhereInput;
-  AND?: TypeSubscriptionWhereInput[] | TypeSubscriptionWhereInput;
-  OR?: TypeSubscriptionWhereInput[] | TypeSubscriptionWhereInput;
-  NOT?: TypeSubscriptionWhereInput[] | TypeSubscriptionWhereInput;
-}
-
-export interface GameIndexUpdateManyDataInput {
-  name?: String;
-  url?: String;
-}
-
-export interface StatSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: StatWhereInput;
-  AND?: StatSubscriptionWhereInput[] | StatSubscriptionWhereInput;
-  OR?: StatSubscriptionWhereInput[] | StatSubscriptionWhereInput;
-  NOT?: StatSubscriptionWhereInput[] | StatSubscriptionWhereInput;
-}
-
-export interface SpeciesSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: SpeciesWhereInput;
-  AND?: SpeciesSubscriptionWhereInput[] | SpeciesSubscriptionWhereInput;
-  OR?: SpeciesSubscriptionWhereInput[] | SpeciesSubscriptionWhereInput;
-  NOT?: SpeciesSubscriptionWhereInput[] | SpeciesSubscriptionWhereInput;
-}
-
-export interface PokemonSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PokemonWhereInput;
-  AND?: PokemonSubscriptionWhereInput[] | PokemonSubscriptionWhereInput;
-  OR?: PokemonSubscriptionWhereInput[] | PokemonSubscriptionWhereInput;
-  NOT?: PokemonSubscriptionWhereInput[] | PokemonSubscriptionWhereInput;
-}
-
-export interface AbilityCreateInput {
-  name?: String;
-  url?: String;
-}
-
-export interface MoveSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: MoveWhereInput;
-  AND?: MoveSubscriptionWhereInput[] | MoveSubscriptionWhereInput;
-  OR?: MoveSubscriptionWhereInput[] | MoveSubscriptionWhereInput;
-  NOT?: MoveSubscriptionWhereInput[] | MoveSubscriptionWhereInput;
-}
-
-export interface AbilityUpdateManyMutationInput {
-  name?: String;
-  url?: String;
-}
-
-export interface GameIndexSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: GameIndexWhereInput;
-  AND?: GameIndexSubscriptionWhereInput[] | GameIndexSubscriptionWhereInput;
-  OR?: GameIndexSubscriptionWhereInput[] | GameIndexSubscriptionWhereInput;
-  NOT?: GameIndexSubscriptionWhereInput[] | GameIndexSubscriptionWhereInput;
+export interface CommentWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  bodyText?: String;
+  bodyText_not?: String;
+  bodyText_in?: String[] | String;
+  bodyText_not_in?: String[] | String;
+  bodyText_lt?: String;
+  bodyText_lte?: String;
+  bodyText_gt?: String;
+  bodyText_gte?: String;
+  bodyText_contains?: String;
+  bodyText_not_contains?: String;
+  bodyText_starts_with?: String;
+  bodyText_not_starts_with?: String;
+  bodyText_ends_with?: String;
+  bodyText_not_ends_with?: String;
+  createdBy?: UserWhereInput;
+  AND?: CommentWhereInput[] | CommentWhereInput;
+  OR?: CommentWhereInput[] | CommentWhereInput;
+  NOT?: CommentWhereInput[] | CommentWhereInput;
 }
 
 export interface GameIndexUpdateManyWithWhereNestedInput {
@@ -1059,15 +987,15 @@ export interface GameIndexUpdateManyWithWhereNestedInput {
   data: GameIndexUpdateManyDataInput;
 }
 
-export interface CommentSubscriptionWhereInput {
+export interface SpriteSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: CommentWhereInput;
-  AND?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
-  OR?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
-  NOT?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
+  node?: SpriteWhereInput;
+  AND?: SpriteSubscriptionWhereInput[] | SpriteSubscriptionWhereInput;
+  OR?: SpriteSubscriptionWhereInput[] | SpriteSubscriptionWhereInput;
+  NOT?: SpriteSubscriptionWhereInput[] | SpriteSubscriptionWhereInput;
 }
 
 export interface GameIndexScalarWhereInput {
@@ -1104,31 +1032,143 @@ export interface GameIndexScalarWhereInput {
   NOT?: GameIndexScalarWhereInput[] | GameIndexScalarWhereInput;
 }
 
-export interface AbilitySubscriptionWhereInput {
+export interface SpeciesSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: AbilityWhereInput;
-  AND?: AbilitySubscriptionWhereInput[] | AbilitySubscriptionWhereInput;
-  OR?: AbilitySubscriptionWhereInput[] | AbilitySubscriptionWhereInput;
-  NOT?: AbilitySubscriptionWhereInput[] | AbilitySubscriptionWhereInput;
+  node?: SpeciesWhereInput;
+  AND?: SpeciesSubscriptionWhereInput[] | SpeciesSubscriptionWhereInput;
+  OR?: SpeciesSubscriptionWhereInput[] | SpeciesSubscriptionWhereInput;
+  NOT?: SpeciesSubscriptionWhereInput[] | SpeciesSubscriptionWhereInput;
 }
 
-export interface CommentCreateInput {
-  bodyText: String;
-  createdBy?: UserCreateOneInput;
+export interface GameIndexUpdateManyInput {
+  create?: GameIndexCreateInput[] | GameIndexCreateInput;
+  deleteMany?: GameIndexScalarWhereInput[] | GameIndexScalarWhereInput;
+  updateMany?:
+    | GameIndexUpdateManyWithWhereNestedInput[]
+    | GameIndexUpdateManyWithWhereNestedInput;
 }
 
-export interface UserUpdateInput {
+export interface PokemonSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PokemonWhereInput;
+  AND?: PokemonSubscriptionWhereInput[] | PokemonSubscriptionWhereInput;
+  OR?: PokemonSubscriptionWhereInput[] | PokemonSubscriptionWhereInput;
+  NOT?: PokemonSubscriptionWhereInput[] | PokemonSubscriptionWhereInput;
+}
+
+export interface FormUpdateManyDataInput {
+  name?: String;
+  url?: String;
+}
+
+export interface MoveSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: MoveWhereInput;
+  AND?: MoveSubscriptionWhereInput[] | MoveSubscriptionWhereInput;
+  OR?: MoveSubscriptionWhereInput[] | MoveSubscriptionWhereInput;
+  NOT?: MoveSubscriptionWhereInput[] | MoveSubscriptionWhereInput;
+}
+
+export interface GameIndexSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: GameIndexWhereInput;
+  AND?: GameIndexSubscriptionWhereInput[] | GameIndexSubscriptionWhereInput;
+  OR?: GameIndexSubscriptionWhereInput[] | GameIndexSubscriptionWhereInput;
+  NOT?: GameIndexSubscriptionWhereInput[] | GameIndexSubscriptionWhereInput;
+}
+
+export interface CommentSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CommentWhereInput;
+  AND?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
+  OR?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
+  NOT?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
+}
+
+export interface AbilityCreateInput {
+  name?: String;
+  url?: String;
+}
+
+export interface AnimalSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: AnimalWhereInput;
+  AND?: AnimalSubscriptionWhereInput[] | AnimalSubscriptionWhereInput;
+  OR?: AnimalSubscriptionWhereInput[] | AnimalSubscriptionWhereInput;
+  NOT?: AnimalSubscriptionWhereInput[] | AnimalSubscriptionWhereInput;
+}
+
+export interface AbilityUpdateManyMutationInput {
+  name?: String;
+  url?: String;
+}
+
+export interface UserUpdateManyMutationInput {
   email?: String;
   name?: String;
-  posts?: PostUpdateManyWithoutAuthorInput;
 }
 
-export interface UserCreateOneInput {
-  create?: UserCreateInput;
-  connect?: UserWhereUniqueInput;
+export interface FormUpdateManyWithWhereNestedInput {
+  where: FormScalarWhereInput;
+  data: FormUpdateManyDataInput;
+}
+
+export interface TypeUpdateManyMutationInput {
+  slot?: Int;
+  name?: String;
+  url?: String;
+}
+
+export interface FormScalarWhereInput {
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  url?: String;
+  url_not?: String;
+  url_in?: String[] | String;
+  url_not_in?: String[] | String;
+  url_lt?: String;
+  url_lte?: String;
+  url_gt?: String;
+  url_gte?: String;
+  url_contains?: String;
+  url_not_contains?: String;
+  url_starts_with?: String;
+  url_not_starts_with?: String;
+  url_ends_with?: String;
+  url_not_ends_with?: String;
+  AND?: FormScalarWhereInput[] | FormScalarWhereInput;
+  OR?: FormScalarWhereInput[] | FormScalarWhereInput;
+  NOT?: FormScalarWhereInput[] | FormScalarWhereInput;
 }
 
 export interface StatUpdateManyMutationInput {
@@ -1138,19 +1178,10 @@ export interface StatUpdateManyMutationInput {
   url?: String;
 }
 
-export interface UserCreateInput {
-  email?: String;
+export interface AnimalCreateInput {
   name: String;
-  posts?: PostCreateManyWithoutAuthorInput;
-}
-
-export type CommentWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface PostCreateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  description: String;
+  url?: String;
 }
 
 export interface SpeciesUpdateManyMutationInput {
@@ -1158,10 +1189,10 @@ export interface SpeciesUpdateManyMutationInput {
   url?: String;
 }
 
-export interface PostCreateWithoutAuthorInput {
-  title: String;
-  published?: Boolean;
-  comments?: CommentCreateManyInput;
+export interface AnimalUpdateInput {
+  name?: String;
+  description?: String;
+  url?: String;
 }
 
 export interface UserUpsertWithoutPostsInput {
@@ -1169,19 +1200,20 @@ export interface UserUpsertWithoutPostsInput {
   create: UserCreateWithoutPostsInput;
 }
 
-export interface CommentCreateManyInput {
-  create?: CommentCreateInput[] | CommentCreateInput;
-  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-}
-
-export interface UserUpdateWithoutPostsDataInput {
-  email?: String;
+export interface AnimalUpdateManyMutationInput {
   name?: String;
+  description?: String;
+  url?: String;
 }
 
-export interface CommentUpdateInput {
-  bodyText?: String;
-  createdBy?: UserUpdateOneInput;
+export type AnimalWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  description?: String;
+}>;
+
+export interface CommentCreateInput {
+  bodyText: String;
+  createdBy?: UserCreateOneInput;
 }
 
 export interface UserUpdateOneWithoutPostsInput {
@@ -1193,13 +1225,43 @@ export interface UserUpdateOneWithoutPostsInput {
   connect?: UserWhereUniqueInput;
 }
 
-export interface UserUpdateOneInput {
+export interface UserCreateOneInput {
   create?: UserCreateInput;
-  update?: UserUpdateDataInput;
-  upsert?: UserUpsertNestedInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
   connect?: UserWhereUniqueInput;
+}
+
+export interface UserCreateWithoutPostsInput {
+  email?: String;
+  name: String;
+}
+
+export interface UserCreateInput {
+  email?: String;
+  name: String;
+  posts?: PostCreateManyWithoutAuthorInput;
+}
+
+export interface UserCreateOneWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface PostCreateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+}
+
+export interface PostCreateInput {
+  title: String;
+  published?: Boolean;
+  author?: UserCreateOneWithoutPostsInput;
+  comments?: CommentCreateManyInput;
+}
+
+export interface PostCreateWithoutAuthorInput {
+  title: String;
+  published?: Boolean;
+  comments?: CommentCreateManyInput;
 }
 
 export interface SpriteWhereInput {
@@ -1320,93 +1382,9 @@ export interface SpriteWhereInput {
   NOT?: SpriteWhereInput[] | SpriteWhereInput;
 }
 
-export interface UserUpdateDataInput {
-  email?: String;
-  name?: String;
-  posts?: PostUpdateManyWithoutAuthorInput;
-}
-
-export interface UserCreateOneWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface PostUpdateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  set?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  update?:
-    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    | PostUpdateWithWhereUniqueWithoutAuthorInput;
-  upsert?:
-    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    | PostUpsertWithWhereUniqueWithoutAuthorInput;
-  deleteMany?: PostScalarWhereInput[] | PostScalarWhereInput;
-  updateMany?:
-    | PostUpdateManyWithWhereNestedInput[]
-    | PostUpdateManyWithWhereNestedInput;
-}
-
-export interface PostCreateInput {
-  title: String;
-  published?: Boolean;
-  author?: UserCreateOneWithoutPostsInput;
-  comments?: CommentCreateManyInput;
-}
-
-export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput;
-  data: PostUpdateWithoutAuthorDataInput;
-}
-
-export interface TypeWhereInput {
-  slot?: Int;
-  slot_not?: Int;
-  slot_in?: Int[] | Int;
-  slot_not_in?: Int[] | Int;
-  slot_lt?: Int;
-  slot_lte?: Int;
-  slot_gt?: Int;
-  slot_gte?: Int;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  url?: String;
-  url_not?: String;
-  url_in?: String[] | String;
-  url_not_in?: String[] | String;
-  url_lt?: String;
-  url_lte?: String;
-  url_gt?: String;
-  url_gte?: String;
-  url_contains?: String;
-  url_not_contains?: String;
-  url_starts_with?: String;
-  url_not_starts_with?: String;
-  url_ends_with?: String;
-  url_not_ends_with?: String;
-  AND?: TypeWhereInput[] | TypeWhereInput;
-  OR?: TypeWhereInput[] | TypeWhereInput;
-  NOT?: TypeWhereInput[] | TypeWhereInput;
-}
-
-export interface PostUpdateWithoutAuthorDataInput {
-  title?: String;
-  published?: Boolean;
-  comments?: CommentUpdateManyInput;
+export interface CommentCreateManyInput {
+  create?: CommentCreateInput[] | CommentCreateInput;
+  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
 }
 
 export interface TypeUpdateManyWithWhereNestedInput {
@@ -1414,22 +1392,9 @@ export interface TypeUpdateManyWithWhereNestedInput {
   data: TypeUpdateManyDataInput;
 }
 
-export interface CommentUpdateManyInput {
-  create?: CommentCreateInput[] | CommentCreateInput;
-  update?:
-    | CommentUpdateWithWhereUniqueNestedInput[]
-    | CommentUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | CommentUpsertWithWhereUniqueNestedInput[]
-    | CommentUpsertWithWhereUniqueNestedInput;
-  delete?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-  set?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-  disconnect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-  deleteMany?: CommentScalarWhereInput[] | CommentScalarWhereInput;
-  updateMany?:
-    | CommentUpdateManyWithWhereNestedInput[]
-    | CommentUpdateManyWithWhereNestedInput;
+export interface CommentUpdateInput {
+  bodyText?: String;
+  createdBy?: UserUpdateOneInput;
 }
 
 export interface TypeScalarWhereInput {
@@ -1474,16 +1439,196 @@ export interface TypeScalarWhereInput {
   NOT?: TypeScalarWhereInput[] | TypeScalarWhereInput;
 }
 
+export interface UserUpdateOneInput {
+  create?: UserCreateInput;
+  update?: UserUpdateDataInput;
+  upsert?: UserUpsertNestedInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface TypeWhereInput {
+  slot?: Int;
+  slot_not?: Int;
+  slot_in?: Int[] | Int;
+  slot_not_in?: Int[] | Int;
+  slot_lt?: Int;
+  slot_lte?: Int;
+  slot_gt?: Int;
+  slot_gte?: Int;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  url?: String;
+  url_not?: String;
+  url_in?: String[] | String;
+  url_not_in?: String[] | String;
+  url_lt?: String;
+  url_lte?: String;
+  url_gt?: String;
+  url_gte?: String;
+  url_contains?: String;
+  url_not_contains?: String;
+  url_starts_with?: String;
+  url_not_starts_with?: String;
+  url_ends_with?: String;
+  url_not_ends_with?: String;
+  AND?: TypeWhereInput[] | TypeWhereInput;
+  OR?: TypeWhereInput[] | TypeWhereInput;
+  NOT?: TypeWhereInput[] | TypeWhereInput;
+}
+
+export interface UserUpdateDataInput {
+  email?: String;
+  name?: String;
+  posts?: PostUpdateManyWithoutAuthorInput;
+}
+
+export interface StatUpdateManyWithWhereNestedInput {
+  where: StatScalarWhereInput;
+  data: StatUpdateManyDataInput;
+}
+
+export interface PostUpdateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
+  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  set?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  update?:
+    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
+    | PostUpdateWithWhereUniqueWithoutAuthorInput;
+  upsert?:
+    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
+    | PostUpsertWithWhereUniqueWithoutAuthorInput;
+  deleteMany?: PostScalarWhereInput[] | PostScalarWhereInput;
+  updateMany?:
+    | PostUpdateManyWithWhereNestedInput[]
+    | PostUpdateManyWithWhereNestedInput;
+}
+
+export interface StatScalarWhereInput {
+  base_stat?: Int;
+  base_stat_not?: Int;
+  base_stat_in?: Int[] | Int;
+  base_stat_not_in?: Int[] | Int;
+  base_stat_lt?: Int;
+  base_stat_lte?: Int;
+  base_stat_gt?: Int;
+  base_stat_gte?: Int;
+  effort?: Int;
+  effort_not?: Int;
+  effort_in?: Int[] | Int;
+  effort_not_in?: Int[] | Int;
+  effort_lt?: Int;
+  effort_lte?: Int;
+  effort_gt?: Int;
+  effort_gte?: Int;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  url?: String;
+  url_not?: String;
+  url_in?: String[] | String;
+  url_not_in?: String[] | String;
+  url_lt?: String;
+  url_lte?: String;
+  url_gt?: String;
+  url_gte?: String;
+  url_contains?: String;
+  url_not_contains?: String;
+  url_starts_with?: String;
+  url_not_starts_with?: String;
+  url_ends_with?: String;
+  url_not_ends_with?: String;
+  AND?: StatScalarWhereInput[] | StatScalarWhereInput;
+  OR?: StatScalarWhereInput[] | StatScalarWhereInput;
+  NOT?: StatScalarWhereInput[] | StatScalarWhereInput;
+}
+
+export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput;
+  data: PostUpdateWithoutAuthorDataInput;
+}
+
+export interface SpriteUpdateManyDataInput {
+  back_default?: String;
+  back_female?: String;
+  back_shiny?: String;
+  back_shiny_female?: String;
+  front_default?: String;
+  front_female?: String;
+  front_shiny?: String;
+  front_shiny_female?: String;
+}
+
+export interface PostUpdateWithoutAuthorDataInput {
+  title?: String;
+  published?: Boolean;
+  comments?: CommentUpdateManyInput;
+}
+
+export type PostWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface CommentUpdateManyInput {
+  create?: CommentCreateInput[] | CommentCreateInput;
+  update?:
+    | CommentUpdateWithWhereUniqueNestedInput[]
+    | CommentUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | CommentUpsertWithWhereUniqueNestedInput[]
+    | CommentUpsertWithWhereUniqueNestedInput;
+  delete?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  set?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  disconnect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  deleteMany?: CommentScalarWhereInput[] | CommentScalarWhereInput;
+  updateMany?:
+    | CommentUpdateManyWithWhereNestedInput[]
+    | CommentUpdateManyWithWhereNestedInput;
+}
+
+export interface SpriteUpdateManyInput {
+  create?: SpriteCreateInput[] | SpriteCreateInput;
+  deleteMany?: SpriteScalarWhereInput[] | SpriteScalarWhereInput;
+  updateMany?:
+    | SpriteUpdateManyWithWhereNestedInput[]
+    | SpriteUpdateManyWithWhereNestedInput;
+}
+
 export interface CommentUpdateWithWhereUniqueNestedInput {
   where: CommentWhereUniqueInput;
   data: CommentUpdateDataInput;
 }
 
-export interface StatUpdateManyDataInput {
-  base_stat?: Int;
-  effort?: Int;
-  name?: String;
-  url?: String;
+export interface SpeciesUpdateManyWithWhereNestedInput {
+  where: SpeciesScalarWhereInput;
+  data: SpeciesUpdateManyDataInput;
 }
 
 export interface CommentUpdateDataInput {
@@ -1491,9 +1636,13 @@ export interface CommentUpdateDataInput {
   createdBy?: UserUpdateOneInput;
 }
 
-export type PostWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export interface SpeciesUpdateManyInput {
+  create?: SpeciesCreateInput[] | SpeciesCreateInput;
+  deleteMany?: SpeciesScalarWhereInput[] | SpeciesScalarWhereInput;
+  updateMany?:
+    | SpeciesUpdateManyWithWhereNestedInput[]
+    | SpeciesUpdateManyWithWhereNestedInput;
+}
 
 export interface CommentUpsertWithWhereUniqueNestedInput {
   where: CommentWhereUniqueInput;
@@ -1501,12 +1650,9 @@ export interface CommentUpsertWithWhereUniqueNestedInput {
   create: CommentCreateInput;
 }
 
-export interface StatUpdateManyInput {
-  create?: StatCreateInput[] | StatCreateInput;
-  deleteMany?: StatScalarWhereInput[] | StatScalarWhereInput;
-  updateMany?:
-    | StatUpdateManyWithWhereNestedInput[]
-    | StatUpdateManyWithWhereNestedInput;
+export interface MoveUpdateManyWithWhereNestedInput {
+  where: MoveScalarWhereInput;
+  data: MoveUpdateManyDataInput;
 }
 
 export interface CommentScalarWhereInput {
@@ -1559,9 +1705,12 @@ export interface CommentScalarWhereInput {
   NOT?: CommentScalarWhereInput[] | CommentScalarWhereInput;
 }
 
-export interface SpriteUpdateManyWithWhereNestedInput {
-  where: SpriteScalarWhereInput;
-  data: SpriteUpdateManyDataInput;
+export interface MoveUpdateManyInput {
+  create?: MoveCreateInput[] | MoveCreateInput;
+  deleteMany?: MoveScalarWhereInput[] | MoveScalarWhereInput;
+  updateMany?:
+    | MoveUpdateManyWithWhereNestedInput[]
+    | MoveUpdateManyWithWhereNestedInput;
 }
 
 export interface CommentUpdateManyWithWhereNestedInput {
@@ -1569,35 +1718,165 @@ export interface CommentUpdateManyWithWhereNestedInput {
   data: CommentUpdateManyDataInput;
 }
 
-export interface SpriteUpdateManyInput {
-  create?: SpriteCreateInput[] | SpriteCreateInput;
-  deleteMany?: SpriteScalarWhereInput[] | SpriteScalarWhereInput;
-  updateMany?:
-    | SpriteUpdateManyWithWhereNestedInput[]
-    | SpriteUpdateManyWithWhereNestedInput;
-}
+export type CommentWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
 export interface CommentUpdateManyDataInput {
   bodyText?: String;
 }
 
-export interface SpeciesUpdateManyWithWhereNestedInput {
-  where: SpeciesScalarWhereInput;
-  data: SpeciesUpdateManyDataInput;
+export interface UserWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  posts_every?: PostWhereInput;
+  posts_some?: PostWhereInput;
+  posts_none?: PostWhereInput;
+  AND?: UserWhereInput[] | UserWhereInput;
+  OR?: UserWhereInput[] | UserWhereInput;
+  NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput;
-  update: PostUpdateWithoutAuthorDataInput;
-  create: PostCreateWithoutAuthorInput;
-}
-
-export interface SpeciesUpdateManyInput {
-  create?: SpeciesCreateInput[] | SpeciesCreateInput;
-  deleteMany?: SpeciesScalarWhereInput[] | SpeciesScalarWhereInput;
+export interface FormUpdateManyInput {
+  create?: FormCreateInput[] | FormCreateInput;
+  deleteMany?: FormScalarWhereInput[] | FormScalarWhereInput;
   updateMany?:
-    | SpeciesUpdateManyWithWhereNestedInput[]
-    | SpeciesUpdateManyWithWhereNestedInput;
+    | FormUpdateManyWithWhereNestedInput[]
+    | FormUpdateManyWithWhereNestedInput;
+}
+
+export interface AnimalWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  url?: String;
+  url_not?: String;
+  url_in?: String[] | String;
+  url_not_in?: String[] | String;
+  url_lt?: String;
+  url_lte?: String;
+  url_gt?: String;
+  url_gte?: String;
+  url_contains?: String;
+  url_not_contains?: String;
+  url_starts_with?: String;
+  url_not_starts_with?: String;
+  url_ends_with?: String;
+  url_not_ends_with?: String;
+  AND?: AnimalWhereInput[] | AnimalWhereInput;
+  OR?: AnimalWhereInput[] | AnimalWhereInput;
+  NOT?: AnimalWhereInput[] | AnimalWhereInput;
 }
 
 export interface PostScalarWhereInput {
@@ -1652,42 +1931,6 @@ export interface PostScalarWhereInput {
   NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
 }
 
-export interface MoveUpdateManyWithWhereNestedInput {
-  where: MoveScalarWhereInput;
-  data: MoveUpdateManyDataInput;
-}
-
-export interface PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput;
-  data: PostUpdateManyDataInput;
-}
-
-export interface MoveUpdateManyInput {
-  create?: MoveCreateInput[] | MoveCreateInput;
-  deleteMany?: MoveScalarWhereInput[] | MoveScalarWhereInput;
-  updateMany?:
-    | MoveUpdateManyWithWhereNestedInput[]
-    | MoveUpdateManyWithWhereNestedInput;
-}
-
-export interface PostUpdateManyDataInput {
-  title?: String;
-  published?: Boolean;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-}>;
-
-export interface GameIndexUpdateManyInput {
-  create?: GameIndexCreateInput[] | GameIndexCreateInput;
-  deleteMany?: GameIndexScalarWhereInput[] | GameIndexScalarWhereInput;
-  updateMany?:
-    | GameIndexUpdateManyWithWhereNestedInput[]
-    | GameIndexUpdateManyWithWhereNestedInput;
-}
-
 export interface FormWhereInput {
   name?: String;
   name_not?: String;
@@ -1722,40 +1965,41 @@ export interface FormWhereInput {
   NOT?: FormWhereInput[] | FormWhereInput;
 }
 
-export interface CommentUpdateManyMutationInput {
-  bodyText?: String;
+export interface PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput;
+  data: PostUpdateManyDataInput;
 }
 
-export interface PostSubscriptionWhereInput {
+export interface FormSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: PostWhereInput;
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  node?: FormWhereInput;
+  AND?: FormSubscriptionWhereInput[] | FormSubscriptionWhereInput;
+  OR?: FormSubscriptionWhereInput[] | FormSubscriptionWhereInput;
+  NOT?: FormSubscriptionWhereInput[] | FormSubscriptionWhereInput;
 }
 
-export interface FormCreateInput {
-  name?: String;
-  url?: String;
+export interface PostUpdateManyDataInput {
+  title?: String;
+  published?: Boolean;
 }
 
-export interface ItemSubscriptionWhereInput {
+export interface AbilitySubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: ItemWhereInput;
-  AND?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
-  OR?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
-  NOT?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
+  node?: AbilityWhereInput;
+  AND?: AbilitySubscriptionWhereInput[] | AbilitySubscriptionWhereInput;
+  OR?: AbilitySubscriptionWhereInput[] | AbilitySubscriptionWhereInput;
+  NOT?: AbilitySubscriptionWhereInput[] | AbilitySubscriptionWhereInput;
 }
 
-export interface FormUpdateManyMutationInput {
-  name?: String;
-  url?: String;
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
 }
 
 export interface ItemWhereInput {
@@ -1792,34 +2036,26 @@ export interface ItemWhereInput {
   NOT?: ItemWhereInput[] | ItemWhereInput;
 }
 
-export interface GameIndexCreateInput {
+export interface CommentUpdateManyMutationInput {
+  bodyText?: String;
+}
+
+export interface PostUpdateManyMutationInput {
+  title?: String;
+  published?: Boolean;
+}
+
+export interface FormCreateInput {
   name?: String;
   url?: String;
 }
 
-export interface TypeUpdateManyMutationInput {
-  slot?: Int;
+export interface UserUpdateWithoutPostsDataInput {
+  email?: String;
   name?: String;
-  url?: String;
 }
 
-export interface GameIndexUpdateManyMutationInput {
-  name?: String;
-  url?: String;
-}
-
-export interface SpriteUpdateManyMutationInput {
-  back_default?: String;
-  back_female?: String;
-  back_shiny?: String;
-  back_shiny_female?: String;
-  front_default?: String;
-  front_female?: String;
-  front_shiny?: String;
-  front_shiny_female?: String;
-}
-
-export interface ItemCreateInput {
+export interface FormUpdateManyMutationInput {
   name?: String;
   url?: String;
 }
@@ -1828,67 +2064,25 @@ export type PokemonWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface ItemUpdateManyMutationInput {
+export interface GameIndexCreateInput {
   name?: String;
   url?: String;
 }
 
-export interface PostUpdateInput {
-  title?: String;
-  published?: Boolean;
-  author?: UserUpdateOneWithoutPostsInput;
-  comments?: CommentUpdateManyInput;
+export interface PokemonUpdateManyMutationInput {
+  base_experience?: Int;
+  height?: Int;
+  is_default?: Boolean;
+  location_area_encounters?: String;
+  name?: String;
+  order?: Int;
+  weight?: Int;
+  url?: String;
 }
 
-export interface CommentWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  bodyText?: String;
-  bodyText_not?: String;
-  bodyText_in?: String[] | String;
-  bodyText_not_in?: String[] | String;
-  bodyText_lt?: String;
-  bodyText_lte?: String;
-  bodyText_gt?: String;
-  bodyText_gte?: String;
-  bodyText_contains?: String;
-  bodyText_not_contains?: String;
-  bodyText_starts_with?: String;
-  bodyText_not_starts_with?: String;
-  bodyText_ends_with?: String;
-  bodyText_not_ends_with?: String;
-  createdBy?: UserWhereInput;
-  AND?: CommentWhereInput[] | CommentWhereInput;
-  OR?: CommentWhereInput[] | CommentWhereInput;
-  NOT?: CommentWhereInput[] | CommentWhereInput;
+export interface AbilityUpdateManyDataInput {
+  name?: String;
+  url?: String;
 }
 
 export interface StatWhereInput {
@@ -1941,86 +2135,34 @@ export interface StatWhereInput {
   NOT?: StatWhereInput[] | StatWhereInput;
 }
 
-export interface FormUpdateManyDataInput {
+export interface ItemCreateInput {
   name?: String;
   url?: String;
 }
 
-export interface TypeUpdateManyDataInput {
-  slot?: Int;
-  name?: String;
-  url?: String;
-}
-
-export interface FormUpdateManyWithWhereNestedInput {
-  where: FormScalarWhereInput;
-  data: FormUpdateManyDataInput;
-}
-
-export interface TypeUpdateManyInput {
-  create?: TypeCreateInput[] | TypeCreateInput;
-  deleteMany?: TypeScalarWhereInput[] | TypeScalarWhereInput;
-  updateMany?:
-    | TypeUpdateManyWithWhereNestedInput[]
-    | TypeUpdateManyWithWhereNestedInput;
-}
-
-export interface AbilityCreateManyInput {
-  create?: AbilityCreateInput[] | AbilityCreateInput;
-}
-
-export interface StatScalarWhereInput {
+export interface StatUpdateManyDataInput {
   base_stat?: Int;
-  base_stat_not?: Int;
-  base_stat_in?: Int[] | Int;
-  base_stat_not_in?: Int[] | Int;
-  base_stat_lt?: Int;
-  base_stat_lte?: Int;
-  base_stat_gt?: Int;
-  base_stat_gte?: Int;
   effort?: Int;
-  effort_not?: Int;
-  effort_in?: Int[] | Int;
-  effort_not_in?: Int[] | Int;
-  effort_lt?: Int;
-  effort_lte?: Int;
-  effort_gt?: Int;
-  effort_gte?: Int;
   name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
   url?: String;
-  url_not?: String;
-  url_in?: String[] | String;
-  url_not_in?: String[] | String;
-  url_lt?: String;
-  url_lte?: String;
-  url_gt?: String;
-  url_gte?: String;
-  url_contains?: String;
-  url_not_contains?: String;
-  url_starts_with?: String;
-  url_not_starts_with?: String;
-  url_ends_with?: String;
-  url_not_ends_with?: String;
-  AND?: StatScalarWhereInput[] | StatScalarWhereInput;
-  OR?: StatScalarWhereInput[] | StatScalarWhereInput;
-  NOT?: StatScalarWhereInput[] | StatScalarWhereInput;
 }
 
-export interface FormCreateManyInput {
-  create?: FormCreateInput[] | FormCreateInput;
+export interface ItemUpdateManyMutationInput {
+  name?: String;
+  url?: String;
+}
+
+export interface StatUpdateManyInput {
+  create?: StatCreateInput[] | StatCreateInput;
+  deleteMany?: StatScalarWhereInput[] | StatScalarWhereInput;
+  updateMany?:
+    | StatUpdateManyWithWhereNestedInput[]
+    | StatUpdateManyWithWhereNestedInput;
+}
+
+export interface MoveCreateInput {
+  name?: String;
+  url?: String;
 }
 
 export interface SpriteScalarWhereInput {
@@ -2141,8 +2283,9 @@ export interface SpriteScalarWhereInput {
   NOT?: SpriteScalarWhereInput[] | SpriteScalarWhereInput;
 }
 
-export interface GameIndexCreateManyInput {
-  create?: GameIndexCreateInput[] | GameIndexCreateInput;
+export interface MoveUpdateManyMutationInput {
+  name?: String;
+  url?: String;
 }
 
 export interface SpeciesScalarWhereInput {
@@ -2179,8 +2322,24 @@ export interface SpeciesScalarWhereInput {
   NOT?: SpeciesScalarWhereInput[] | SpeciesScalarWhereInput;
 }
 
-export interface ItemCreateManyInput {
-  create?: ItemCreateInput[] | ItemCreateInput;
+export interface PokemonCreateInput {
+  abilities?: AbilityCreateManyInput;
+  base_experience?: Int;
+  forms?: FormCreateManyInput;
+  game_indices?: GameIndexCreateManyInput;
+  held_items?: ItemCreateManyInput;
+  height?: Int;
+  is_default?: Boolean;
+  location_area_encounters?: String;
+  moves?: MoveCreateManyInput;
+  name?: String;
+  order?: Int;
+  species?: SpeciesCreateManyInput;
+  sprites?: SpriteCreateManyInput;
+  stats?: StatCreateManyInput;
+  types?: TypeCreateManyInput;
+  weight?: Int;
+  url?: String;
 }
 
 export interface MoveScalarWhereInput {
@@ -2217,23 +2376,38 @@ export interface MoveScalarWhereInput {
   NOT?: MoveScalarWhereInput[] | MoveScalarWhereInput;
 }
 
-export interface MoveCreateManyInput {
-  create?: MoveCreateInput[] | MoveCreateInput;
+export interface AbilityCreateManyInput {
+  create?: AbilityCreateInput[] | AbilityCreateInput;
 }
 
-export interface UserSubscriptionWhereInput {
+export interface TypeSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  node?: TypeWhereInput;
+  AND?: TypeSubscriptionWhereInput[] | TypeSubscriptionWhereInput;
+  OR?: TypeSubscriptionWhereInput[] | TypeSubscriptionWhereInput;
+  NOT?: TypeSubscriptionWhereInput[] | TypeSubscriptionWhereInput;
 }
 
-export interface SpeciesCreateManyInput {
-  create?: SpeciesCreateInput[] | SpeciesCreateInput;
+export interface FormCreateManyInput {
+  create?: FormCreateInput[] | FormCreateInput;
+}
+
+export interface PostSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PostWhereInput;
+  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+}
+
+export interface GameIndexCreateManyInput {
+  create?: GameIndexCreateInput[] | GameIndexCreateInput;
 }
 
 export interface GameIndexWhereInput {
@@ -2270,26 +2444,11 @@ export interface GameIndexWhereInput {
   NOT?: GameIndexWhereInput[] | GameIndexWhereInput;
 }
 
-export interface SpeciesCreateInput {
-  name?: String;
-  url?: String;
+export interface ItemCreateManyInput {
+  create?: ItemCreateInput[] | ItemCreateInput;
 }
 
-export interface UserUpdateManyMutationInput {
-  email?: String;
-  name?: String;
-}
-
-export interface SpriteCreateManyInput {
-  create?: SpriteCreateInput[] | SpriteCreateInput;
-}
-
-export interface PostUpdateManyMutationInput {
-  title?: String;
-  published?: Boolean;
-}
-
-export interface SpriteCreateInput {
+export interface SpriteUpdateManyMutationInput {
   back_default?: String;
   back_female?: String;
   back_shiny?: String;
@@ -2300,13 +2459,30 @@ export interface SpriteCreateInput {
   front_shiny_female?: String;
 }
 
-export interface UserCreateWithoutPostsInput {
-  email?: String;
-  name: String;
+export interface MoveCreateManyInput {
+  create?: MoveCreateInput[] | MoveCreateInput;
 }
 
-export interface StatCreateManyInput {
-  create?: StatCreateInput[] | StatCreateInput;
+export interface PostUpdateInput {
+  title?: String;
+  published?: Boolean;
+  author?: UserUpdateOneWithoutPostsInput;
+  comments?: CommentUpdateManyInput;
+}
+
+export interface SpeciesCreateManyInput {
+  create?: SpeciesCreateInput[] | SpeciesCreateInput;
+}
+
+export interface TypeUpdateManyDataInput {
+  slot?: Int;
+  name?: String;
+  url?: String;
+}
+
+export interface SpeciesCreateInput {
+  name?: String;
+  url?: String;
 }
 
 export interface PokemonWhereInput {
@@ -2432,14 +2608,16 @@ export interface PokemonWhereInput {
   NOT?: PokemonWhereInput[] | PokemonWhereInput;
 }
 
-export interface StatCreateInput {
-  base_stat?: Int;
-  effort?: Int;
+export interface SpriteCreateManyInput {
+  create?: SpriteCreateInput[] | SpriteCreateInput;
+}
+
+export interface SpeciesUpdateManyDataInput {
   name?: String;
   url?: String;
 }
 
-export interface SpriteUpdateManyDataInput {
+export interface SpriteCreateInput {
   back_default?: String;
   back_female?: String;
   back_shiny?: String;
@@ -2450,49 +2628,30 @@ export interface SpriteUpdateManyDataInput {
   front_shiny_female?: String;
 }
 
-export interface TypeCreateManyInput {
-  create?: TypeCreateInput[] | TypeCreateInput;
-}
-
-export interface MoveUpdateManyDataInput {
+export interface ItemUpdateManyDataInput {
   name?: String;
   url?: String;
 }
 
-export interface TypeCreateInput {
-  slot?: Int;
-  name?: String;
-  url?: String;
+export interface StatCreateManyInput {
+  create?: StatCreateInput[] | StatCreateInput;
 }
 
-export interface SpriteSubscriptionWhereInput {
+export interface ItemSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: SpriteWhereInput;
-  AND?: SpriteSubscriptionWhereInput[] | SpriteSubscriptionWhereInput;
-  OR?: SpriteSubscriptionWhereInput[] | SpriteSubscriptionWhereInput;
-  NOT?: SpriteSubscriptionWhereInput[] | SpriteSubscriptionWhereInput;
+  node?: ItemWhereInput;
+  AND?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
+  OR?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
+  NOT?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
 }
 
-export interface PokemonUpdateInput {
-  abilities?: AbilityUpdateManyInput;
-  base_experience?: Int;
-  forms?: FormUpdateManyInput;
-  game_indices?: GameIndexUpdateManyInput;
-  held_items?: ItemUpdateManyInput;
-  height?: Int;
-  is_default?: Boolean;
-  location_area_encounters?: String;
-  moves?: MoveUpdateManyInput;
+export interface StatCreateInput {
+  base_stat?: Int;
+  effort?: Int;
   name?: String;
-  order?: Int;
-  species?: SpeciesUpdateManyInput;
-  sprites?: SpriteUpdateManyInput;
-  stats?: StatUpdateManyInput;
-  types?: TypeUpdateManyInput;
-  weight?: Int;
   url?: String;
 }
 
@@ -2530,41 +2689,16 @@ export interface MoveWhereInput {
   NOT?: MoveWhereInput[] | MoveWhereInput;
 }
 
-export interface AbilityUpdateManyInput {
-  create?: AbilityCreateInput[] | AbilityCreateInput;
-  deleteMany?: AbilityScalarWhereInput[] | AbilityScalarWhereInput;
+export interface TypeCreateManyInput {
+  create?: TypeCreateInput[] | TypeCreateInput;
+}
+
+export interface TypeUpdateManyInput {
+  create?: TypeCreateInput[] | TypeCreateInput;
+  deleteMany?: TypeScalarWhereInput[] | TypeScalarWhereInput;
   updateMany?:
-    | AbilityUpdateManyWithWhereNestedInput[]
-    | AbilityUpdateManyWithWhereNestedInput;
-}
-
-export interface PokemonUpdateManyMutationInput {
-  base_experience?: Int;
-  height?: Int;
-  is_default?: Boolean;
-  location_area_encounters?: String;
-  name?: String;
-  order?: Int;
-  weight?: Int;
-  url?: String;
-}
-
-export interface FormUpdateManyInput {
-  create?: FormCreateInput[] | FormCreateInput;
-  deleteMany?: FormScalarWhereInput[] | FormScalarWhereInput;
-  updateMany?:
-    | FormUpdateManyWithWhereNestedInput[]
-    | FormUpdateManyWithWhereNestedInput;
-}
-
-export interface AbilityUpdateManyDataInput {
-  name?: String;
-  url?: String;
-}
-
-export interface AbilityUpdateManyWithWhereNestedInput {
-  where: AbilityScalarWhereInput;
-  data: AbilityUpdateManyDataInput;
+    | TypeUpdateManyWithWhereNestedInput[]
+    | TypeUpdateManyWithWhereNestedInput;
 }
 
 export interface AbilityScalarWhereInput {
@@ -2601,9 +2735,43 @@ export interface AbilityScalarWhereInput {
   NOT?: AbilityScalarWhereInput[] | AbilityScalarWhereInput;
 }
 
-export interface StatUpdateManyWithWhereNestedInput {
-  where: StatScalarWhereInput;
-  data: StatUpdateManyDataInput;
+export interface AbilityUpdateManyInput {
+  create?: AbilityCreateInput[] | AbilityCreateInput;
+  deleteMany?: AbilityScalarWhereInput[] | AbilityScalarWhereInput;
+  updateMany?:
+    | AbilityUpdateManyWithWhereNestedInput[]
+    | AbilityUpdateManyWithWhereNestedInput;
+}
+
+export interface PokemonUpdateInput {
+  abilities?: AbilityUpdateManyInput;
+  base_experience?: Int;
+  forms?: FormUpdateManyInput;
+  game_indices?: GameIndexUpdateManyInput;
+  held_items?: ItemUpdateManyInput;
+  height?: Int;
+  is_default?: Boolean;
+  location_area_encounters?: String;
+  moves?: MoveUpdateManyInput;
+  name?: String;
+  order?: Int;
+  species?: SpeciesUpdateManyInput;
+  sprites?: SpriteUpdateManyInput;
+  stats?: StatUpdateManyInput;
+  types?: TypeUpdateManyInput;
+  weight?: Int;
+  url?: String;
+}
+
+export interface TypeCreateInput {
+  slot?: Int;
+  name?: String;
+  url?: String;
+}
+
+export interface SpriteUpdateManyWithWhereNestedInput {
+  where: SpriteScalarWhereInput;
+  data: SpriteUpdateManyDataInput;
 }
 
 export interface SpeciesWhereInput {
@@ -2640,23 +2808,24 @@ export interface SpeciesWhereInput {
   NOT?: SpeciesWhereInput[] | SpeciesWhereInput;
 }
 
-export interface FormSubscriptionWhereInput {
+export interface UserUpdateInput {
+  email?: String;
+  name?: String;
+  posts?: PostUpdateManyWithoutAuthorInput;
+}
+
+export interface StatSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: FormWhereInput;
-  AND?: FormSubscriptionWhereInput[] | FormSubscriptionWhereInput;
-  OR?: FormSubscriptionWhereInput[] | FormSubscriptionWhereInput;
-  NOT?: FormSubscriptionWhereInput[] | FormSubscriptionWhereInput;
+  node?: StatWhereInput;
+  AND?: StatSubscriptionWhereInput[] | StatSubscriptionWhereInput;
+  OR?: StatSubscriptionWhereInput[] | StatSubscriptionWhereInput;
+  NOT?: StatSubscriptionWhereInput[] | StatSubscriptionWhereInput;
 }
 
-export interface ItemUpdateManyDataInput {
-  name?: String;
-  url?: String;
-}
-
-export interface SpeciesUpdateManyDataInput {
+export interface MoveUpdateManyDataInput {
   name?: String;
   url?: String;
 }
@@ -2693,20 +2862,163 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ItemEdge {
-  node: Item;
+export interface AggregateGameIndex {
+  count: Int;
+}
+
+export interface AggregateGameIndexPromise
+  extends Promise<AggregateGameIndex>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateGameIndexSubscription
+  extends Promise<AsyncIterator<AggregateGameIndex>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AnimalEdge {
+  node: Animal;
   cursor: String;
 }
 
-export interface ItemEdgePromise extends Promise<ItemEdge>, Fragmentable {
-  node: <T = ItemPromise>() => T;
+export interface AnimalEdgePromise extends Promise<AnimalEdge>, Fragmentable {
+  node: <T = AnimalPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface ItemEdgeSubscription
-  extends Promise<AsyncIterator<ItemEdge>>,
+export interface AnimalEdgeSubscription
+  extends Promise<AsyncIterator<AnimalEdge>>,
     Fragmentable {
-  node: <T = ItemSubscription>() => T;
+  node: <T = AnimalSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface GameIndexEdge {
+  node: GameIndex;
+  cursor: String;
+}
+
+export interface GameIndexEdgePromise
+  extends Promise<GameIndexEdge>,
+    Fragmentable {
+  node: <T = GameIndexPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface GameIndexEdgeSubscription
+  extends Promise<AsyncIterator<GameIndexEdge>>,
+    Fragmentable {
+  node: <T = GameIndexSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateAnimal {
+  count: Int;
+}
+
+export interface AggregateAnimalPromise
+  extends Promise<AggregateAnimal>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateAnimalSubscription
+  extends Promise<AsyncIterator<AggregateAnimal>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface GameIndexConnection {
+  pageInfo: PageInfo;
+  edges: GameIndexEdge[];
+}
+
+export interface GameIndexConnectionPromise
+  extends Promise<GameIndexConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<GameIndexEdge>>() => T;
+  aggregate: <T = AggregateGameIndexPromise>() => T;
+}
+
+export interface GameIndexConnectionSubscription
+  extends Promise<AsyncIterator<GameIndexConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<GameIndexEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateGameIndexSubscription>() => T;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface GameIndex {
+  name?: String;
+  url?: String;
+}
+
+export interface GameIndexPromise extends Promise<GameIndex>, Fragmentable {
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface GameIndexSubscription
+  extends Promise<AsyncIterator<GameIndex>>,
+    Fragmentable {
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -2758,166 +3070,21 @@ export interface UserSubscription
   ) => T;
 }
 
-export interface ItemConnection {
-  pageInfo: PageInfo;
-  edges: ItemEdge[];
-}
-
-export interface ItemConnectionPromise
-  extends Promise<ItemConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ItemEdge>>() => T;
-  aggregate: <T = AggregateItemPromise>() => T;
-}
-
-export interface ItemConnectionSubscription
-  extends Promise<AsyncIterator<ItemConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ItemEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateItemSubscription>() => T;
-}
-
-export interface CommentConnection {
-  pageInfo: PageInfo;
-  edges: CommentEdge[];
-}
-
-export interface CommentConnectionPromise
-  extends Promise<CommentConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CommentEdge>>() => T;
-  aggregate: <T = AggregateCommentPromise>() => T;
-}
-
-export interface CommentConnectionSubscription
-  extends Promise<AsyncIterator<CommentConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CommentEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCommentSubscription>() => T;
-}
-
-export interface Item {
+export interface Ability {
   name?: String;
   url?: String;
 }
 
-export interface ItemPromise extends Promise<Item>, Fragmentable {
+export interface AbilityPromise extends Promise<Ability>, Fragmentable {
   name: () => Promise<String>;
   url: () => Promise<String>;
 }
 
-export interface ItemSubscription
-  extends Promise<AsyncIterator<Item>>,
+export interface AbilitySubscription
+  extends Promise<AsyncIterator<Ability>>,
     Fragmentable {
   name: () => Promise<AsyncIterator<String>>;
   url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface CommentEdge {
-  node: Comment;
-  cursor: String;
-}
-
-export interface CommentEdgePromise extends Promise<CommentEdge>, Fragmentable {
-  node: <T = CommentPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface CommentEdgeSubscription
-  extends Promise<AsyncIterator<CommentEdge>>,
-    Fragmentable {
-  node: <T = CommentSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateComment {
-  count: Int;
-}
-
-export interface AggregateCommentPromise
-  extends Promise<AggregateComment>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCommentSubscription
-  extends Promise<AsyncIterator<AggregateComment>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
-}
-
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
-}
-
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface AggregateType {
@@ -2936,47 +3103,37 @@ export interface AggregateTypeSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface TypePreviousValues {
-  slot?: Int;
-  name?: String;
-  url?: String;
+export interface TypeEdge {
+  node: Type;
+  cursor: String;
 }
 
-export interface TypePreviousValuesPromise
-  extends Promise<TypePreviousValues>,
+export interface TypeEdgePromise extends Promise<TypeEdge>, Fragmentable {
+  node: <T = TypePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface TypeEdgeSubscription
+  extends Promise<AsyncIterator<TypeEdge>>,
     Fragmentable {
-  slot: () => Promise<Int>;
-  name: () => Promise<String>;
-  url: () => Promise<String>;
+  node: <T = TypeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface TypePreviousValuesSubscription
-  extends Promise<AsyncIterator<TypePreviousValues>>,
+export interface AggregateStat {
+  count: Int;
+}
+
+export interface AggregateStatPromise
+  extends Promise<AggregateStat>,
     Fragmentable {
-  slot: () => Promise<AsyncIterator<Int>>;
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<Int>;
 }
 
-export interface TypeConnection {
-  pageInfo: PageInfo;
-  edges: TypeEdge[];
-}
-
-export interface TypeConnectionPromise
-  extends Promise<TypeConnection>,
+export interface AggregateStatSubscription
+  extends Promise<AsyncIterator<AggregateStat>>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<TypeEdge>>() => T;
-  aggregate: <T = AggregateTypePromise>() => T;
-}
-
-export interface TypeConnectionSubscription
-  extends Promise<AsyncIterator<TypeConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<TypeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateTypeSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface AbilitySubscriptionPayload {
@@ -3004,21 +3161,25 @@ export interface AbilitySubscriptionPayloadSubscription
   previousValues: <T = AbilityPreviousValuesSubscription>() => T;
 }
 
-export interface StatEdge {
-  node: Stat;
-  cursor: String;
+export interface StatConnection {
+  pageInfo: PageInfo;
+  edges: StatEdge[];
 }
 
-export interface StatEdgePromise extends Promise<StatEdge>, Fragmentable {
-  node: <T = StatPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface StatEdgeSubscription
-  extends Promise<AsyncIterator<StatEdge>>,
+export interface StatConnectionPromise
+  extends Promise<StatConnection>,
     Fragmentable {
-  node: <T = StatSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<StatEdge>>() => T;
+  aggregate: <T = AggregateStatPromise>() => T;
+}
+
+export interface StatConnectionSubscription
+  extends Promise<AsyncIterator<StatConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<StatEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateStatSubscription>() => T;
 }
 
 export interface AbilityPreviousValues {
@@ -3040,57 +3201,192 @@ export interface AbilityPreviousValuesSubscription
   url: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateSprite {
+export interface SpriteEdge {
+  node: Sprite;
+  cursor: String;
+}
+
+export interface SpriteEdgePromise extends Promise<SpriteEdge>, Fragmentable {
+  node: <T = SpritePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SpriteEdgeSubscription
+  extends Promise<AsyncIterator<SpriteEdge>>,
+    Fragmentable {
+  node: <T = SpriteSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Animal {
+  id: ID_Output;
+  name: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  description: String;
+  url?: String;
+}
+
+export interface AnimalPromise extends Promise<Animal>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  description: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface AnimalSubscription
+  extends Promise<AsyncIterator<Animal>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  description: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateSpecies {
   count: Int;
 }
 
-export interface AggregateSpritePromise
-  extends Promise<AggregateSprite>,
+export interface AggregateSpeciesPromise
+  extends Promise<AggregateSpecies>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateSpriteSubscription
-  extends Promise<AsyncIterator<AggregateSprite>>,
+export interface AggregateSpeciesSubscription
+  extends Promise<AsyncIterator<AggregateSpecies>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface AggregateGameIndex {
-  count: Int;
+export interface AnimalSubscriptionPayload {
+  mutation: MutationType;
+  node: Animal;
+  updatedFields: String[];
+  previousValues: AnimalPreviousValues;
 }
 
-export interface AggregateGameIndexPromise
-  extends Promise<AggregateGameIndex>,
+export interface AnimalSubscriptionPayloadPromise
+  extends Promise<AnimalSubscriptionPayload>,
     Fragmentable {
-  count: () => Promise<Int>;
+  mutation: () => Promise<MutationType>;
+  node: <T = AnimalPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = AnimalPreviousValuesPromise>() => T;
 }
 
-export interface AggregateGameIndexSubscription
-  extends Promise<AsyncIterator<AggregateGameIndex>>,
+export interface AnimalSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<AnimalSubscriptionPayload>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = AnimalSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = AnimalPreviousValuesSubscription>() => T;
 }
 
-export interface SpriteConnection {
+export interface SpeciesConnection {
   pageInfo: PageInfo;
-  edges: SpriteEdge[];
+  edges: SpeciesEdge[];
 }
 
-export interface SpriteConnectionPromise
-  extends Promise<SpriteConnection>,
+export interface SpeciesConnectionPromise
+  extends Promise<SpeciesConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<SpriteEdge>>() => T;
-  aggregate: <T = AggregateSpritePromise>() => T;
+  edges: <T = FragmentableArray<SpeciesEdge>>() => T;
+  aggregate: <T = AggregateSpeciesPromise>() => T;
 }
 
-export interface SpriteConnectionSubscription
-  extends Promise<AsyncIterator<SpriteConnection>>,
+export interface SpeciesConnectionSubscription
+  extends Promise<AsyncIterator<SpeciesConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<SpriteEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateSpriteSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SpeciesEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSpeciesSubscription>() => T;
+}
+
+export interface AnimalPreviousValues {
+  id: ID_Output;
+  name: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  description: String;
+  url?: String;
+}
+
+export interface AnimalPreviousValuesPromise
+  extends Promise<AnimalPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  description: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface AnimalPreviousValuesSubscription
+  extends Promise<AsyncIterator<AnimalPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  description: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PostEdge {
+  node: Post;
+  cursor: String;
+}
+
+export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
+  node: <T = PostPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PostEdgeSubscription
+  extends Promise<AsyncIterator<PostEdge>>,
+    Fragmentable {
+  node: <T = PostSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateForm {
+  count: Int;
+}
+
+export interface AggregateFormPromise
+  extends Promise<AggregateForm>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateFormSubscription
+  extends Promise<AsyncIterator<AggregateForm>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AggregatePokemon {
+  count: Int;
+}
+
+export interface AggregatePokemonPromise
+  extends Promise<AggregatePokemon>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePokemonSubscription
+  extends Promise<AsyncIterator<AggregatePokemon>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface CommentSubscriptionPayload {
@@ -3118,21 +3414,25 @@ export interface CommentSubscriptionPayloadSubscription
   previousValues: <T = CommentPreviousValuesSubscription>() => T;
 }
 
-export interface SpeciesEdge {
-  node: Species;
-  cursor: String;
+export interface PokemonConnection {
+  pageInfo: PageInfo;
+  edges: PokemonEdge[];
 }
 
-export interface SpeciesEdgePromise extends Promise<SpeciesEdge>, Fragmentable {
-  node: <T = SpeciesPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface SpeciesEdgeSubscription
-  extends Promise<AsyncIterator<SpeciesEdge>>,
+export interface PokemonConnectionPromise
+  extends Promise<PokemonConnection>,
     Fragmentable {
-  node: <T = SpeciesSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PokemonEdge>>() => T;
+  aggregate: <T = AggregatePokemonPromise>() => T;
+}
+
+export interface PokemonConnectionSubscription
+  extends Promise<AsyncIterator<PokemonConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PokemonEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePokemonSubscription>() => T;
 }
 
 export interface CommentPreviousValues {
@@ -3160,60 +3460,64 @@ export interface CommentPreviousValuesSubscription
   bodyText: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregatePost {
-  count: Int;
+export interface Type {
+  slot?: Int;
+  name?: String;
+  url?: String;
 }
 
-export interface AggregatePostPromise
-  extends Promise<AggregatePost>,
+export interface TypePromise extends Promise<Type>, Fragmentable {
+  slot: () => Promise<Int>;
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface TypeSubscription
+  extends Promise<AsyncIterator<Type>>,
     Fragmentable {
-  count: () => Promise<Int>;
+  slot: () => Promise<AsyncIterator<Int>>;
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregatePostSubscription
-  extends Promise<AsyncIterator<AggregatePost>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface GameIndexEdge {
-  node: GameIndex;
+export interface FormEdge {
+  node: Form;
   cursor: String;
 }
 
-export interface GameIndexEdgePromise
-  extends Promise<GameIndexEdge>,
-    Fragmentable {
-  node: <T = GameIndexPromise>() => T;
+export interface FormEdgePromise extends Promise<FormEdge>, Fragmentable {
+  node: <T = FormPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface GameIndexEdgeSubscription
-  extends Promise<AsyncIterator<GameIndexEdge>>,
+export interface FormEdgeSubscription
+  extends Promise<AsyncIterator<FormEdge>>,
     Fragmentable {
-  node: <T = GameIndexSubscription>() => T;
+  node: <T = FormSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PostConnection {
-  pageInfo: PageInfo;
-  edges: PostEdge[];
+export interface Stat {
+  base_stat?: Int;
+  effort?: Int;
+  name?: String;
+  url?: String;
 }
 
-export interface PostConnectionPromise
-  extends Promise<PostConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PostEdge>>() => T;
-  aggregate: <T = AggregatePostPromise>() => T;
+export interface StatPromise extends Promise<Stat>, Fragmentable {
+  base_stat: () => Promise<Int>;
+  effort: () => Promise<Int>;
+  name: () => Promise<String>;
+  url: () => Promise<String>;
 }
 
-export interface PostConnectionSubscription
-  extends Promise<AsyncIterator<PostConnection>>,
+export interface StatSubscription
+  extends Promise<AsyncIterator<Stat>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePostSubscription>() => T;
+  base_stat: () => Promise<AsyncIterator<Int>>;
+  effort: () => Promise<AsyncIterator<Int>>;
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
 }
 
 export interface FormSubscriptionPayload {
@@ -3239,622 +3543,6 @@ export interface FormSubscriptionPayloadSubscription
   node: <T = FormSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
   previousValues: <T = FormPreviousValuesSubscription>() => T;
-}
-
-export interface PokemonEdge {
-  node: Pokemon;
-  cursor: String;
-}
-
-export interface PokemonEdgePromise extends Promise<PokemonEdge>, Fragmentable {
-  node: <T = PokemonPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PokemonEdgeSubscription
-  extends Promise<AsyncIterator<PokemonEdge>>,
-    Fragmentable {
-  node: <T = PokemonSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface FormPreviousValues {
-  name?: String;
-  url?: String;
-}
-
-export interface FormPreviousValuesPromise
-  extends Promise<FormPreviousValues>,
-    Fragmentable {
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface FormPreviousValuesSubscription
-  extends Promise<AsyncIterator<FormPreviousValues>>,
-    Fragmentable {
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AbilityConnection {
-  pageInfo: PageInfo;
-  edges: AbilityEdge[];
-}
-
-export interface AbilityConnectionPromise
-  extends Promise<AbilityConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<AbilityEdge>>() => T;
-  aggregate: <T = AggregateAbilityPromise>() => T;
-}
-
-export interface AbilityConnectionSubscription
-  extends Promise<AsyncIterator<AbilityConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<AbilityEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateAbilitySubscription>() => T;
-}
-
-export interface GameIndexConnection {
-  pageInfo: PageInfo;
-  edges: GameIndexEdge[];
-}
-
-export interface GameIndexConnectionPromise
-  extends Promise<GameIndexConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<GameIndexEdge>>() => T;
-  aggregate: <T = AggregateGameIndexPromise>() => T;
-}
-
-export interface GameIndexConnectionSubscription
-  extends Promise<AsyncIterator<GameIndexConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<GameIndexEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateGameIndexSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface GameIndexSubscriptionPayload {
-  mutation: MutationType;
-  node: GameIndex;
-  updatedFields: String[];
-  previousValues: GameIndexPreviousValues;
-}
-
-export interface GameIndexSubscriptionPayloadPromise
-  extends Promise<GameIndexSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = GameIndexPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = GameIndexPreviousValuesPromise>() => T;
-}
-
-export interface GameIndexSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<GameIndexSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = GameIndexSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = GameIndexPreviousValuesSubscription>() => T;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface GameIndexPreviousValues {
-  name?: String;
-  url?: String;
-}
-
-export interface GameIndexPreviousValuesPromise
-  extends Promise<GameIndexPreviousValues>,
-    Fragmentable {
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface GameIndexPreviousValuesSubscription
-  extends Promise<AsyncIterator<GameIndexPreviousValues>>,
-    Fragmentable {
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AbilityEdge {
-  node: Ability;
-  cursor: String;
-}
-
-export interface AbilityEdgePromise extends Promise<AbilityEdge>, Fragmentable {
-  node: <T = AbilityPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface AbilityEdgeSubscription
-  extends Promise<AsyncIterator<AbilityEdge>>,
-    Fragmentable {
-  node: <T = AbilitySubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface GameIndex {
-  name?: String;
-  url?: String;
-}
-
-export interface GameIndexPromise extends Promise<GameIndex>, Fragmentable {
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface GameIndexSubscription
-  extends Promise<AsyncIterator<GameIndex>>,
-    Fragmentable {
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateAbility {
-  count: Int;
-}
-
-export interface AggregateAbilityPromise
-  extends Promise<AggregateAbility>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateAbilitySubscription
-  extends Promise<AsyncIterator<AggregateAbility>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface ItemSubscriptionPayload {
-  mutation: MutationType;
-  node: Item;
-  updatedFields: String[];
-  previousValues: ItemPreviousValues;
-}
-
-export interface ItemSubscriptionPayloadPromise
-  extends Promise<ItemSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = ItemPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ItemPreviousValuesPromise>() => T;
-}
-
-export interface ItemSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ItemSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ItemSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ItemPreviousValuesSubscription>() => T;
-}
-
-export interface AggregateMove {
-  count: Int;
-}
-
-export interface AggregateMovePromise
-  extends Promise<AggregateMove>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateMoveSubscription
-  extends Promise<AsyncIterator<AggregateMove>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface ItemPreviousValues {
-  name?: String;
-  url?: String;
-}
-
-export interface ItemPreviousValuesPromise
-  extends Promise<ItemPreviousValues>,
-    Fragmentable {
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface ItemPreviousValuesSubscription
-  extends Promise<AsyncIterator<ItemPreviousValues>>,
-    Fragmentable {
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface MoveConnection {
-  pageInfo: PageInfo;
-  edges: MoveEdge[];
-}
-
-export interface MoveConnectionPromise
-  extends Promise<MoveConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<MoveEdge>>() => T;
-  aggregate: <T = AggregateMovePromise>() => T;
-}
-
-export interface MoveConnectionSubscription
-  extends Promise<AsyncIterator<MoveConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<MoveEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateMoveSubscription>() => T;
-}
-
-export interface Comment {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  bodyText: String;
-}
-
-export interface CommentPromise extends Promise<Comment>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  bodyText: () => Promise<String>;
-  createdBy: <T = UserPromise>() => T;
-}
-
-export interface CommentSubscription
-  extends Promise<AsyncIterator<Comment>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  bodyText: () => Promise<AsyncIterator<String>>;
-  createdBy: <T = UserSubscription>() => T;
-}
-
-export interface AggregateItem {
-  count: Int;
-}
-
-export interface AggregateItemPromise
-  extends Promise<AggregateItem>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateItemSubscription
-  extends Promise<AsyncIterator<AggregateItem>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface MoveSubscriptionPayload {
-  mutation: MutationType;
-  node: Move;
-  updatedFields: String[];
-  previousValues: MovePreviousValues;
-}
-
-export interface MoveSubscriptionPayloadPromise
-  extends Promise<MoveSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = MovePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = MovePreviousValuesPromise>() => T;
-}
-
-export interface MoveSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<MoveSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = MoveSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = MovePreviousValuesSubscription>() => T;
-}
-
-export interface Ability {
-  name?: String;
-  url?: String;
-}
-
-export interface AbilityPromise extends Promise<Ability>, Fragmentable {
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface AbilitySubscription
-  extends Promise<AsyncIterator<Ability>>,
-    Fragmentable {
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface MovePreviousValues {
-  name?: String;
-  url?: String;
-}
-
-export interface MovePreviousValuesPromise
-  extends Promise<MovePreviousValues>,
-    Fragmentable {
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface MovePreviousValuesSubscription
-  extends Promise<AsyncIterator<MovePreviousValues>>,
-    Fragmentable {
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateStat {
-  count: Int;
-}
-
-export interface AggregateStatPromise
-  extends Promise<AggregateStat>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateStatSubscription
-  extends Promise<AsyncIterator<AggregateStat>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AggregateForm {
-  count: Int;
-}
-
-export interface AggregateFormPromise
-  extends Promise<AggregateForm>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateFormSubscription
-  extends Promise<AsyncIterator<AggregateForm>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface SpriteEdge {
-  node: Sprite;
-  cursor: String;
-}
-
-export interface SpriteEdgePromise extends Promise<SpriteEdge>, Fragmentable {
-  node: <T = SpritePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface SpriteEdgeSubscription
-  extends Promise<AsyncIterator<SpriteEdge>>,
-    Fragmentable {
-  node: <T = SpriteSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PokemonSubscriptionPayload {
-  mutation: MutationType;
-  node: Pokemon;
-  updatedFields: String[];
-  previousValues: PokemonPreviousValues;
-}
-
-export interface PokemonSubscriptionPayloadPromise
-  extends Promise<PokemonSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PokemonPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PokemonPreviousValuesPromise>() => T;
-}
-
-export interface PokemonSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PokemonSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PokemonSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PokemonPreviousValuesSubscription>() => T;
-}
-
-export interface SpeciesConnection {
-  pageInfo: PageInfo;
-  edges: SpeciesEdge[];
-}
-
-export interface SpeciesConnectionPromise
-  extends Promise<SpeciesConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<SpeciesEdge>>() => T;
-  aggregate: <T = AggregateSpeciesPromise>() => T;
-}
-
-export interface SpeciesConnectionSubscription
-  extends Promise<AsyncIterator<SpeciesConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<SpeciesEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateSpeciesSubscription>() => T;
-}
-
-export interface PokemonPreviousValues {
-  base_experience?: Int;
-  height?: Int;
-  id: ID_Output;
-  is_default?: Boolean;
-  location_area_encounters?: String;
-  name?: String;
-  order?: Int;
-  weight?: Int;
-  url?: String;
-}
-
-export interface PokemonPreviousValuesPromise
-  extends Promise<PokemonPreviousValues>,
-    Fragmentable {
-  base_experience: () => Promise<Int>;
-  height: () => Promise<Int>;
-  id: () => Promise<ID_Output>;
-  is_default: () => Promise<Boolean>;
-  location_area_encounters: () => Promise<String>;
-  name: () => Promise<String>;
-  order: () => Promise<Int>;
-  weight: () => Promise<Int>;
-  url: () => Promise<String>;
-}
-
-export interface PokemonPreviousValuesSubscription
-  extends Promise<AsyncIterator<PokemonPreviousValues>>,
-    Fragmentable {
-  base_experience: () => Promise<AsyncIterator<Int>>;
-  height: () => Promise<AsyncIterator<Int>>;
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  is_default: () => Promise<AsyncIterator<Boolean>>;
-  location_area_encounters: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  order: () => Promise<AsyncIterator<Int>>;
-  weight: () => Promise<AsyncIterator<Int>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregatePokemon {
-  count: Int;
-}
-
-export interface AggregatePokemonPromise
-  extends Promise<AggregatePokemon>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePokemonSubscription
-  extends Promise<AsyncIterator<AggregatePokemon>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface FormEdge {
-  node: Form;
-  cursor: String;
-}
-
-export interface FormEdgePromise extends Promise<FormEdge>, Fragmentable {
-  node: <T = FormPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface FormEdgeSubscription
-  extends Promise<AsyncIterator<FormEdge>>,
-    Fragmentable {
-  node: <T = FormSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface Type {
-  slot?: Int;
-  name?: String;
-  url?: String;
-}
-
-export interface TypePromise extends Promise<Type>, Fragmentable {
-  slot: () => Promise<Int>;
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface TypeSubscription
-  extends Promise<AsyncIterator<Type>>,
-    Fragmentable {
-  slot: () => Promise<AsyncIterator<Int>>;
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PostSubscriptionPayload {
-  mutation: MutationType;
-  node: Post;
-  updatedFields: String[];
-  previousValues: PostPreviousValues;
-}
-
-export interface PostSubscriptionPayloadPromise
-  extends Promise<PostSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PostPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostPreviousValuesPromise>() => T;
-}
-
-export interface PostSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostPreviousValuesSubscription>() => T;
 }
 
 export interface Sprite {
@@ -3892,32 +3580,61 @@ export interface SpriteSubscription
   front_shiny_female: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PostPreviousValues {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  title: String;
-  published: Boolean;
+export interface FormPreviousValues {
+  name?: String;
+  url?: String;
 }
 
-export interface PostPreviousValuesPromise
-  extends Promise<PostPreviousValues>,
+export interface FormPreviousValuesPromise
+  extends Promise<FormPreviousValues>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  title: () => Promise<String>;
-  published: () => Promise<Boolean>;
+  name: () => Promise<String>;
+  url: () => Promise<String>;
 }
 
-export interface PostPreviousValuesSubscription
-  extends Promise<AsyncIterator<PostPreviousValues>>,
+export interface FormPreviousValuesSubscription
+  extends Promise<AsyncIterator<FormPreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  title: () => Promise<AsyncIterator<String>>;
-  published: () => Promise<AsyncIterator<Boolean>>;
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Species {
+  name?: String;
+  url?: String;
+}
+
+export interface SpeciesPromise extends Promise<Species>, Fragmentable {
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface SpeciesSubscription
+  extends Promise<AsyncIterator<Species>>,
+    Fragmentable {
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface FormConnection {
+  pageInfo: PageInfo;
+  edges: FormEdge[];
+}
+
+export interface FormConnectionPromise
+  extends Promise<FormConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<FormEdge>>() => T;
+  aggregate: <T = AggregateFormPromise>() => T;
+}
+
+export interface FormConnectionSubscription
+  extends Promise<AsyncIterator<FormConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<FormEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateFormSubscription>() => T;
 }
 
 export interface Pokemon {
@@ -4156,25 +3873,65 @@ export interface PokemonSubscription
   url: () => Promise<AsyncIterator<String>>;
 }
 
-export interface FormConnection {
-  pageInfo: PageInfo;
-  edges: FormEdge[];
+export interface GameIndexSubscriptionPayload {
+  mutation: MutationType;
+  node: GameIndex;
+  updatedFields: String[];
+  previousValues: GameIndexPreviousValues;
 }
 
-export interface FormConnectionPromise
-  extends Promise<FormConnection>,
+export interface GameIndexSubscriptionPayloadPromise
+  extends Promise<GameIndexSubscriptionPayload>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<FormEdge>>() => T;
-  aggregate: <T = AggregateFormPromise>() => T;
+  mutation: () => Promise<MutationType>;
+  node: <T = GameIndexPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = GameIndexPreviousValuesPromise>() => T;
 }
 
-export interface FormConnectionSubscription
-  extends Promise<AsyncIterator<FormConnection>>,
+export interface GameIndexSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<GameIndexSubscriptionPayload>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<FormEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateFormSubscription>() => T;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = GameIndexSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = GameIndexPreviousValuesSubscription>() => T;
+}
+
+export interface MoveEdge {
+  node: Move;
+  cursor: String;
+}
+
+export interface MoveEdgePromise extends Promise<MoveEdge>, Fragmentable {
+  node: <T = MovePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface MoveEdgeSubscription
+  extends Promise<AsyncIterator<MoveEdge>>,
+    Fragmentable {
+  node: <T = MoveSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface GameIndexPreviousValues {
+  name?: String;
+  url?: String;
+}
+
+export interface GameIndexPreviousValuesPromise
+  extends Promise<GameIndexPreviousValues>,
+    Fragmentable {
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface GameIndexPreviousValuesSubscription
+  extends Promise<AsyncIterator<GameIndexPreviousValues>>,
+    Fragmentable {
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
 }
 
 export interface Move {
@@ -4192,6 +3949,559 @@ export interface MoveSubscription
     Fragmentable {
   name: () => Promise<AsyncIterator<String>>;
   url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Form {
+  name?: String;
+  url?: String;
+}
+
+export interface FormPromise extends Promise<Form>, Fragmentable {
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface FormSubscription
+  extends Promise<AsyncIterator<Form>>,
+    Fragmentable {
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ItemEdge {
+  node: Item;
+  cursor: String;
+}
+
+export interface ItemEdgePromise extends Promise<ItemEdge>, Fragmentable {
+  node: <T = ItemPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ItemEdgeSubscription
+  extends Promise<AsyncIterator<ItemEdge>>,
+    Fragmentable {
+  node: <T = ItemSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ItemSubscriptionPayload {
+  mutation: MutationType;
+  node: Item;
+  updatedFields: String[];
+  previousValues: ItemPreviousValues;
+}
+
+export interface ItemSubscriptionPayloadPromise
+  extends Promise<ItemSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ItemPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ItemPreviousValuesPromise>() => T;
+}
+
+export interface ItemSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ItemSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ItemSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ItemPreviousValuesSubscription>() => T;
+}
+
+export interface Item {
+  name?: String;
+  url?: String;
+}
+
+export interface ItemPromise extends Promise<Item>, Fragmentable {
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface ItemSubscription
+  extends Promise<AsyncIterator<Item>>,
+    Fragmentable {
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ItemPreviousValues {
+  name?: String;
+  url?: String;
+}
+
+export interface ItemPreviousValuesPromise
+  extends Promise<ItemPreviousValues>,
+    Fragmentable {
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface ItemPreviousValuesSubscription
+  extends Promise<AsyncIterator<ItemPreviousValues>>,
+    Fragmentable {
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface TypePreviousValues {
+  slot?: Int;
+  name?: String;
+  url?: String;
+}
+
+export interface TypePreviousValuesPromise
+  extends Promise<TypePreviousValues>,
+    Fragmentable {
+  slot: () => Promise<Int>;
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface TypePreviousValuesSubscription
+  extends Promise<AsyncIterator<TypePreviousValues>>,
+    Fragmentable {
+  slot: () => Promise<AsyncIterator<Int>>;
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface TypeSubscriptionPayload {
+  mutation: MutationType;
+  node: Type;
+  updatedFields: String[];
+  previousValues: TypePreviousValues;
+}
+
+export interface TypeSubscriptionPayloadPromise
+  extends Promise<TypeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = TypePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = TypePreviousValuesPromise>() => T;
+}
+
+export interface TypeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<TypeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = TypeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = TypePreviousValuesSubscription>() => T;
+}
+
+export interface TypeConnection {
+  pageInfo: PageInfo;
+  edges: TypeEdge[];
+}
+
+export interface TypeConnectionPromise
+  extends Promise<TypeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<TypeEdge>>() => T;
+  aggregate: <T = AggregateTypePromise>() => T;
+}
+
+export interface TypeConnectionSubscription
+  extends Promise<AsyncIterator<TypeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<TypeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateTypeSubscription>() => T;
+}
+
+export interface MoveSubscriptionPayload {
+  mutation: MutationType;
+  node: Move;
+  updatedFields: String[];
+  previousValues: MovePreviousValues;
+}
+
+export interface MoveSubscriptionPayloadPromise
+  extends Promise<MoveSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = MovePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = MovePreviousValuesPromise>() => T;
+}
+
+export interface MoveSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<MoveSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = MoveSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = MovePreviousValuesSubscription>() => T;
+}
+
+export interface AggregateSprite {
+  count: Int;
+}
+
+export interface AggregateSpritePromise
+  extends Promise<AggregateSprite>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSpriteSubscription
+  extends Promise<AsyncIterator<AggregateSprite>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface MovePreviousValues {
+  name?: String;
+  url?: String;
+}
+
+export interface MovePreviousValuesPromise
+  extends Promise<MovePreviousValues>,
+    Fragmentable {
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface MovePreviousValuesSubscription
+  extends Promise<AsyncIterator<MovePreviousValues>>,
+    Fragmentable {
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SpeciesEdge {
+  node: Species;
+  cursor: String;
+}
+
+export interface SpeciesEdgePromise extends Promise<SpeciesEdge>, Fragmentable {
+  node: <T = SpeciesPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SpeciesEdgeSubscription
+  extends Promise<AsyncIterator<SpeciesEdge>>,
+    Fragmentable {
+  node: <T = SpeciesSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateComment {
+  count: Int;
+}
+
+export interface AggregateCommentPromise
+  extends Promise<AggregateComment>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCommentSubscription
+  extends Promise<AsyncIterator<AggregateComment>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PostConnection {
+  pageInfo: PageInfo;
+  edges: PostEdge[];
+}
+
+export interface PostConnectionPromise
+  extends Promise<PostConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PostEdge>>() => T;
+  aggregate: <T = AggregatePostPromise>() => T;
+}
+
+export interface PostConnectionSubscription
+  extends Promise<AsyncIterator<PostConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePostSubscription>() => T;
+}
+
+export interface PokemonSubscriptionPayload {
+  mutation: MutationType;
+  node: Pokemon;
+  updatedFields: String[];
+  previousValues: PokemonPreviousValues;
+}
+
+export interface PokemonSubscriptionPayloadPromise
+  extends Promise<PokemonSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PokemonPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PokemonPreviousValuesPromise>() => T;
+}
+
+export interface PokemonSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PokemonSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PokemonSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PokemonPreviousValuesSubscription>() => T;
+}
+
+export interface AbilityConnection {
+  pageInfo: PageInfo;
+  edges: AbilityEdge[];
+}
+
+export interface AbilityConnectionPromise
+  extends Promise<AbilityConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<AbilityEdge>>() => T;
+  aggregate: <T = AggregateAbilityPromise>() => T;
+}
+
+export interface AbilityConnectionSubscription
+  extends Promise<AsyncIterator<AbilityConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<AbilityEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateAbilitySubscription>() => T;
+}
+
+export interface PokemonPreviousValues {
+  base_experience?: Int;
+  height?: Int;
+  id: ID_Output;
+  is_default?: Boolean;
+  location_area_encounters?: String;
+  name?: String;
+  order?: Int;
+  weight?: Int;
+  url?: String;
+}
+
+export interface PokemonPreviousValuesPromise
+  extends Promise<PokemonPreviousValues>,
+    Fragmentable {
+  base_experience: () => Promise<Int>;
+  height: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
+  is_default: () => Promise<Boolean>;
+  location_area_encounters: () => Promise<String>;
+  name: () => Promise<String>;
+  order: () => Promise<Int>;
+  weight: () => Promise<Int>;
+  url: () => Promise<String>;
+}
+
+export interface PokemonPreviousValuesSubscription
+  extends Promise<AsyncIterator<PokemonPreviousValues>>,
+    Fragmentable {
+  base_experience: () => Promise<AsyncIterator<Int>>;
+  height: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  is_default: () => Promise<AsyncIterator<Boolean>>;
+  location_area_encounters: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  order: () => Promise<AsyncIterator<Int>>;
+  weight: () => Promise<AsyncIterator<Int>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface CommentEdge {
+  node: Comment;
+  cursor: String;
+}
+
+export interface CommentEdgePromise extends Promise<CommentEdge>, Fragmentable {
+  node: <T = CommentPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CommentEdgeSubscription
+  extends Promise<AsyncIterator<CommentEdge>>,
+    Fragmentable {
+  node: <T = CommentSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateAbility {
+  count: Int;
+}
+
+export interface AggregateAbilityPromise
+  extends Promise<AggregateAbility>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateAbilitySubscription
+  extends Promise<AsyncIterator<AggregateAbility>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PostSubscriptionPayload {
+  mutation: MutationType;
+  node: Post;
+  updatedFields: String[];
+  previousValues: PostPreviousValues;
+}
+
+export interface PostSubscriptionPayloadPromise
+  extends Promise<PostSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PostPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PostPreviousValuesPromise>() => T;
+}
+
+export interface PostSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PostSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PostPreviousValuesSubscription>() => T;
+}
+
+export interface MoveConnection {
+  pageInfo: PageInfo;
+  edges: MoveEdge[];
+}
+
+export interface MoveConnectionPromise
+  extends Promise<MoveConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<MoveEdge>>() => T;
+  aggregate: <T = AggregateMovePromise>() => T;
+}
+
+export interface MoveConnectionSubscription
+  extends Promise<AsyncIterator<MoveConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<MoveEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateMoveSubscription>() => T;
+}
+
+export interface PostPreviousValues {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  title: String;
+  published: Boolean;
+}
+
+export interface PostPreviousValuesPromise
+  extends Promise<PostPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  title: () => Promise<String>;
+  published: () => Promise<Boolean>;
+}
+
+export interface PostPreviousValuesSubscription
+  extends Promise<AsyncIterator<PostPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  title: () => Promise<AsyncIterator<String>>;
+  published: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface ItemConnection {
+  pageInfo: PageInfo;
+  edges: ItemEdge[];
+}
+
+export interface ItemConnectionPromise
+  extends Promise<ItemConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ItemEdge>>() => T;
+  aggregate: <T = AggregateItemPromise>() => T;
+}
+
+export interface ItemConnectionSubscription
+  extends Promise<AsyncIterator<ItemConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ItemEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateItemSubscription>() => T;
+}
+
+export interface CommentConnection {
+  pageInfo: PageInfo;
+  edges: CommentEdge[];
+}
+
+export interface CommentConnectionPromise
+  extends Promise<CommentConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CommentEdge>>() => T;
+  aggregate: <T = AggregateCommentPromise>() => T;
+}
+
+export interface CommentConnectionSubscription
+  extends Promise<AsyncIterator<CommentConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CommentEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCommentSubscription>() => T;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface SpeciesSubscriptionPayload {
@@ -4219,21 +4529,25 @@ export interface SpeciesSubscriptionPayloadSubscription
   previousValues: <T = SpeciesPreviousValuesSubscription>() => T;
 }
 
-export interface TypeEdge {
-  node: Type;
-  cursor: String;
+export interface SpriteConnection {
+  pageInfo: PageInfo;
+  edges: SpriteEdge[];
 }
 
-export interface TypeEdgePromise extends Promise<TypeEdge>, Fragmentable {
-  node: <T = TypePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface TypeEdgeSubscription
-  extends Promise<AsyncIterator<TypeEdge>>,
+export interface SpriteConnectionPromise
+  extends Promise<SpriteConnection>,
     Fragmentable {
-  node: <T = TypeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SpriteEdge>>() => T;
+  aggregate: <T = AggregateSpritePromise>() => T;
+}
+
+export interface SpriteConnectionSubscription
+  extends Promise<AsyncIterator<SpriteConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SpriteEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSpriteSubscription>() => T;
 }
 
 export interface SpeciesPreviousValues {
@@ -4255,100 +4569,21 @@ export interface SpeciesPreviousValuesSubscription
   url: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateSpecies {
-  count: Int;
+export interface PokemonEdge {
+  node: Pokemon;
+  cursor: String;
 }
 
-export interface AggregateSpeciesPromise
-  extends Promise<AggregateSpecies>,
+export interface PokemonEdgePromise extends Promise<PokemonEdge>, Fragmentable {
+  node: <T = PokemonPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PokemonEdgeSubscription
+  extends Promise<AsyncIterator<PokemonEdge>>,
     Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateSpeciesSubscription
-  extends Promise<AsyncIterator<AggregateSpecies>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Form {
-  name?: String;
-  url?: String;
-}
-
-export interface FormPromise extends Promise<Form>, Fragmentable {
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface FormSubscription
-  extends Promise<AsyncIterator<Form>>,
-    Fragmentable {
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PokemonConnection {
-  pageInfo: PageInfo;
-  edges: PokemonEdge[];
-}
-
-export interface PokemonConnectionPromise
-  extends Promise<PokemonConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PokemonEdge>>() => T;
-  aggregate: <T = AggregatePokemonPromise>() => T;
-}
-
-export interface PokemonConnectionSubscription
-  extends Promise<AsyncIterator<PokemonConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PokemonEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePokemonSubscription>() => T;
-}
-
-export interface SpriteSubscriptionPayload {
-  mutation: MutationType;
-  node: Sprite;
-  updatedFields: String[];
-  previousValues: SpritePreviousValues;
-}
-
-export interface SpriteSubscriptionPayloadPromise
-  extends Promise<SpriteSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = SpritePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = SpritePreviousValuesPromise>() => T;
-}
-
-export interface SpriteSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<SpriteSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = SpriteSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = SpritePreviousValuesSubscription>() => T;
-}
-
-export interface Species {
-  name?: String;
-  url?: String;
-}
-
-export interface SpeciesPromise extends Promise<Species>, Fragmentable {
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface SpeciesSubscription
-  extends Promise<AsyncIterator<Species>>,
-    Fragmentable {
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
+  node: <T = PokemonSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface Post {
@@ -4401,6 +4636,81 @@ export interface PostSubscription
   ) => T;
 }
 
+export interface AbilityEdge {
+  node: Ability;
+  cursor: String;
+}
+
+export interface AbilityEdgePromise extends Promise<AbilityEdge>, Fragmentable {
+  node: <T = AbilityPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface AbilityEdgeSubscription
+  extends Promise<AsyncIterator<AbilityEdge>>,
+    Fragmentable {
+  node: <T = AbilitySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SpriteSubscriptionPayload {
+  mutation: MutationType;
+  node: Sprite;
+  updatedFields: String[];
+  previousValues: SpritePreviousValues;
+}
+
+export interface SpriteSubscriptionPayloadPromise
+  extends Promise<SpriteSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = SpritePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SpritePreviousValuesPromise>() => T;
+}
+
+export interface SpriteSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SpriteSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SpriteSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SpritePreviousValuesSubscription>() => T;
+}
+
+export interface AggregateItem {
+  count: Int;
+}
+
+export interface AggregateItemPromise
+  extends Promise<AggregateItem>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateItemSubscription
+  extends Promise<AsyncIterator<AggregateItem>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface StatEdge {
+  node: Stat;
+  cursor: String;
+}
+
+export interface StatEdgePromise extends Promise<StatEdge>, Fragmentable {
+  node: <T = StatPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface StatEdgeSubscription
+  extends Promise<AsyncIterator<StatEdge>>,
+    Fragmentable {
+  node: <T = StatSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
 export interface StatPreviousValues {
   base_stat?: Int;
   effort?: Int;
@@ -4451,29 +4761,25 @@ export interface StatSubscriptionPayloadSubscription
   previousValues: <T = StatPreviousValuesSubscription>() => T;
 }
 
-export interface TypeSubscriptionPayload {
-  mutation: MutationType;
-  node: Type;
-  updatedFields: String[];
-  previousValues: TypePreviousValues;
+export interface AnimalConnection {
+  pageInfo: PageInfo;
+  edges: AnimalEdge[];
 }
 
-export interface TypeSubscriptionPayloadPromise
-  extends Promise<TypeSubscriptionPayload>,
+export interface AnimalConnectionPromise
+  extends Promise<AnimalConnection>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = TypePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = TypePreviousValuesPromise>() => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<AnimalEdge>>() => T;
+  aggregate: <T = AggregateAnimalPromise>() => T;
 }
 
-export interface TypeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<TypeSubscriptionPayload>>,
+export interface AnimalConnectionSubscription
+  extends Promise<AsyncIterator<AnimalConnection>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = TypeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = TypePreviousValuesSubscription>() => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<AnimalEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateAnimalSubscription>() => T;
 }
 
 export interface SpritePreviousValues {
@@ -4513,83 +4819,97 @@ export interface SpritePreviousValuesSubscription
   front_shiny_female: () => Promise<AsyncIterator<String>>;
 }
 
-export interface StatConnection {
-  pageInfo: PageInfo;
-  edges: StatEdge[];
+export interface AggregatePost {
+  count: Int;
 }
 
-export interface StatConnectionPromise
-  extends Promise<StatConnection>,
+export interface AggregatePostPromise
+  extends Promise<AggregatePost>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<StatEdge>>() => T;
-  aggregate: <T = AggregateStatPromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface StatConnectionSubscription
-  extends Promise<AsyncIterator<StatConnection>>,
+export interface AggregatePostSubscription
+  extends Promise<AsyncIterator<AggregatePost>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<StatEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateStatSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface MoveEdge {
-  node: Move;
-  cursor: String;
+export interface Comment {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  bodyText: String;
 }
 
-export interface MoveEdgePromise extends Promise<MoveEdge>, Fragmentable {
-  node: <T = MovePromise>() => T;
-  cursor: () => Promise<String>;
+export interface CommentPromise extends Promise<Comment>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  bodyText: () => Promise<String>;
+  createdBy: <T = UserPromise>() => T;
 }
 
-export interface MoveEdgeSubscription
-  extends Promise<AsyncIterator<MoveEdge>>,
+export interface CommentSubscription
+  extends Promise<AsyncIterator<Comment>>,
     Fragmentable {
-  node: <T = MoveSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  bodyText: () => Promise<AsyncIterator<String>>;
+  createdBy: <T = UserSubscription>() => T;
 }
 
-export interface Stat {
-  base_stat?: Int;
-  effort?: Int;
-  name?: String;
-  url?: String;
+export interface AggregateMove {
+  count: Int;
 }
 
-export interface StatPromise extends Promise<Stat>, Fragmentable {
-  base_stat: () => Promise<Int>;
-  effort: () => Promise<Int>;
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface StatSubscription
-  extends Promise<AsyncIterator<Stat>>,
+export interface AggregateMovePromise
+  extends Promise<AggregateMove>,
     Fragmentable {
-  base_stat: () => Promise<AsyncIterator<Int>>;
-  effort: () => Promise<AsyncIterator<Int>>;
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<Int>;
 }
 
-export interface PostEdge {
-  node: Post;
-  cursor: String;
-}
-
-export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
-  node: <T = PostPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PostEdgeSubscription
-  extends Promise<AsyncIterator<PostEdge>>,
+export interface AggregateMoveSubscription
+  extends Promise<AsyncIterator<AggregateMove>>,
     Fragmentable {
-  node: <T = PostSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<AsyncIterator<Int>>;
 }
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
+
+export type Long = string;
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -4601,18 +4921,6 @@ export type ID_Output = string;
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-export type Long = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
 
 /*
 DateTime scalar input type, allowing Date
@@ -4629,6 +4937,10 @@ export type DateTimeOutput = string;
  */
 
 export const models: Model[] = [
+  {
+    name: "Animal",
+    embedded: false
+  },
   {
     name: "User",
     embedded: false

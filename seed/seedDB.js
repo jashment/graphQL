@@ -14,9 +14,6 @@ const mutation = `mutation createAnimal (
       description: $description
       url: $url
     }) {
-      name
-    description
-      url
       id
     }
   }`
