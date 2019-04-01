@@ -8,7 +8,7 @@
 
 ## "npm run deploy" to deploy Prisma/GraphQL and playground
 
-## "npm run load" to load the GraphQL database from seedDB.js
+## "npm run load" to load JSON from seedDB.js
 
 ## localhost:4466 contains playground and database
 
