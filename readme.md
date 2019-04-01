@@ -8,11 +8,15 @@
 
 4. `npm run dockerStart` to create docker instance
 
-5. `npm run deploy` to deploy Prisma/GraphQL and playground
+5. `npm run deploy` to deploy playground
 
-6. `npm run load` to load JSON from seedDB.js
+6. `npm run start` starts development server
 
-7. localhost:4466 contains playground
+7. `npm run load` to load JSON from seedDB.js
+
+8. localhost:4466 contains prisma playground
+
+9. localhost:4000 contains client-side playground
 
 # Querys and Mutations examples:
 
@@ -30,7 +34,7 @@
   }
  }`
 
-### Find one animal by id and available information about animal
+### Find one animal by id and available information about animal (Note: id is only an example, not an actual id)
 
 
 ` query oneAnimal {
