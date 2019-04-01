@@ -6,11 +6,11 @@ import datamodelInfo from './generated/nexus-prisma'
 
 const Query = prismaObjectType({ 
   name: 'Query',
-  definition: t => t.prismaFields(['*'])
+  definition: t => t.prismaFields(['animal', 'animals', 'animalsConnection'])
 })
 const Mutation = prismaObjectType({ 
   name: 'Mutation',
-  definition: t => t.prismaFields(['*'])
+  definition: t => t.prismaFields(['createAnimal', 'deleteAnimal', 'updateAnimal'])
 })
 
 const schema = makePrismaSchema({
