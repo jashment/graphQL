@@ -78,7 +78,7 @@
   }
  }`
 
-### Update animal by id (Note: updating must be unique)
+### Update animal by id (Note: updating must be unique) (Note: id is only an example)
 
 ` mutation updateAnimal {
 	updateAnimal(
