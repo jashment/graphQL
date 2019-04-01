@@ -2,15 +2,17 @@
 
 1. Clone into your own new project using git clone
 
-2. `npm install` in terminal to install dependencies
+2. cd into the newly created project
 
-3. `npm run dockerStart` to create docker instance
+3. `npm install` in terminal to install dependencies
 
-4. `npm run deploy` to deploy Prisma/GraphQL and playground
+4. `npm run dockerStart` to create docker instance
 
-5. `npm run load` to load JSON from seedDB.js
+5. `npm run deploy` to deploy Prisma/GraphQL and playground
 
-6. localhost:4466 contains playground
+6. `npm run load` to load JSON from seedDB.js
+
+7. localhost:4466 contains playground
 
 # Querys and Mutations examples:
 
