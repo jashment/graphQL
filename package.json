@@ -28,7 +28,7 @@
     "nexus": "^0.11.5",
     "nexus-prisma": "^0.3.5",
     "prisma": "^1.29.2",
-    "prisma-client-lib": "^1.29.1"
+    "prisma-client-lib": "^1.29.2"
   },
   "devDependencies": {
     "ts-node-dev": "^1.0.0-pre.32",
