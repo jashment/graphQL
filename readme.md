@@ -1,16 +1,16 @@
 # Project Installation
 
-## Clone into new project using git clone
+1. Clone into new project using git clone
 
-## "npm install" in terminal to install dependencies
+2. "npm install" in terminal to install dependencies
 
-## "npm run dockerStart" to create docker instance
+3. "npm run dockerStart" to create docker instance
 
-## "npm run deploy" to deploy Prisma/GraphQL and playground
+4. "npm run deploy" to deploy Prisma/GraphQL and playground
 
-## "npm run load" to load JSON from seedDB.js
+5. "npm run load" to load JSON from seedDB.js
 
-## localhost:4466 contains playground and database
+6. localhost:4466 contains playground and database
 
 # Querys and Mutations examples:
 
