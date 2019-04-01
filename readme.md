@@ -54,7 +54,6 @@
       endCursor
       hasNextPage
       hasPreviousPage
-      
     }
   }
  }`
