@@ -10,9 +10,9 @@
 
 5. `npm run deploy` to deploy playground
 
-6. `npm run start` starts development server
+6. `npm run load` to load JSON from seedDB.js
 
-7. `npm run load` to load JSON from seedDB.js
+7. `npm run start` starts development server
 
 8. localhost:4466 contains prisma playground
 
