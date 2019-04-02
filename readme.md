@@ -90,7 +90,7 @@
   }
  }`
 
-### Delete animal by id 
+### Delete animal by id (Note: id is only an example)
 
 ` mutation deleteAnimal {
   deleteAnimal (
