@@ -98,5 +98,30 @@
         "name": "Moose",
         "description": "There were many of them, many much moosen!",
         "url": "https://images.pexels.com/photos/76972/moose-moose-rack-male-bull-76972.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    },
+    {
+        "name": "Pig and Bird",
+        "description": "Two for the price of one!",
+        "url": "https://images.pexels.com/photos/66258/staniel-cay-swimming-pig-seagull-fish-66258.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+    },
+    {
+        "name": "Cat",
+        "description": "He is not amused.",
+        "url": "https://images.pexels.com/photos/208984/pexels-photo-208984.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+    },
+    {
+        "name": "Dog",
+        "description": "Oh yeah, he definitely works out.",
+        "url": "https://images.pexels.com/photos/37735/trick-dog-trick-malinois-dog-show-trick-37735.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+    },
+    {
+        "name": "Hawk",
+        "description": "Well... that was... hawkward.",
+        "url": "https://images.pexels.com/photos/1526410/pexels-photo-1526410.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+    },
+    {
+        "name": "Llama",
+        "description": "Get ready for the spit!!",
+        "url": "https://images.pexels.com/photos/706194/pexels-photo-706194.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
     }
 ]
