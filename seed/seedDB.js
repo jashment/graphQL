@@ -6,13 +6,15 @@ const client = new GraphQLClient('http://localhost:4466')
 const mutation = `mutation createAnimal (
     $name: String,
     $description: String,
-    $url: String
+    $url: String,
+    $emotion: String
 )
 {
     createAnimal(data: {
       name: $name
       description: $description
       url: $url
+      emotion: $emotion
     }) {
       id
     }
@@ -31,7 +33,8 @@ async function main(inputFiles) {
     const variables = {
         name: item.name,
         description: item.description,
-        url: item.url
+        url: item.url,
+        emotion: item.emotion
     }
 
     await client.request(mutation, variables)
