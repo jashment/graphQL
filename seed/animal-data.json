@@ -3,150 +3,175 @@
         "name": "Monkey",
         "description": "This is a happy monkey",
         "url": "https://images.pexels.com/photos/50582/selfie-monkey-self-portrait-macaca-nigra-50582.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Happy"
+        "emotion": "Happy",
+        "genus": "Simia"
     },
     {
         "name": "Unicorn",
         "description": "I'm pretty sure that's a unicorn...",
         "url": "https://images.pexels.com/photos/1564506/pexels-photo-1564506.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Majestic"
+        "emotion": "Majestic",
+        "genus": "Equus Fantasticus"
     },
     {
         "name": "Lemur",
         "description": "He's very talented with a trumpet.",
         "url": "https://images.pexels.com/photos/164703/pexels-photo-164703.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Musical"
+        "emotion": "Musical",
+        "genus": "Lemur tardigradus"
     },
     {
         "name": "Cat",
         "description": "Don't look him right in the eye...",
         "url": "https://images.pexels.com/photos/384555/pexels-photo-384555.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Derp"
+        "emotion": "Derp",
+        "genus": "Felis"
     },
     {
         "name": "Bear",
         "description": "I'm positive that's a bear...right?",
         "url": "https://images.pexels.com/photos/825949/pexels-photo-825949.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Bored"
+        "emotion": "Bored",
+        "genus": "Ursus"
     },
     {
         "name": "Owl",
         "description": "This owl is laughing at you.",
         "url": "https://images.pexels.com/photos/1804976/pexels-photo-1804976.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Laughing"
+        "emotion": "Laughing",
+        "genus": "Strigidae"
     },
     {
         "name": "Deer",
         "description": "This deer can't believe what you just did!",
         "url": "https://images.pexels.com/photos/1318555/pexels-photo-1318555.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Incredulous"
+        "emotion": "Incredulous",
+        "genus": "Cervidae"
     },
     {
         "name": "Gorilla",
         "description": "The gorilla looks kinda guilty...",
         "url": "https://images.pexels.com/photos/39571/gorilla-silverback-animal-silvery-grey-39571.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Guilty"
+        "emotion": "Guilty",
+        "genus": "Gorilla"
     },
     {
         "name": "Penguin",
         "description": "Look at the little baby!",
         "url": "https://images.pexels.com/photos/52509/penguins-emperor-antarctic-life-52509.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Happy(Feet)"
+        "emotion": "Happy(Feet)",
+        "genus": "Aptenodytes"
     },
     {
         "name": "Cow",
         "description": "Well? Are you gonna share?",
         "url": "https://images.pexels.com/photos/33550/cows-curious-cattle-agriculture.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Hungry"
+        "emotion": "Hungry",
+        "genus": "Bos"
     },
     {
         "name": "Tiger",
         "description": "Stretch!",
         "url": "https://images.pexels.com/photos/572861/pexels-photo-572861.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Relaxed"
+        "emotion": "Relaxed",
+        "genus": "Panthera"
     },
     {
         "name": "Horse",
         "description": "He looks like he has...issues",
         "url": "https://images.pexels.com/photos/58875/pexels-photo-58875.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Laughing"
+        "emotion": "Laughing",
+        "genus": "Equus"
     },
     {
         "name": "Seagull",
         "description": "Mine! Mine! Mine!",
         "url": "https://images.pexels.com/photos/56618/seagull-sky-holiday-bird-56618.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Hungry"
+        "emotion": "Hungry",
+        "genus": "Larus"
     },
     {
         "name": "Reindeer",
         "description": "Yup, that's definitely a reindeer",
         "url": "https://images.pexels.com/photos/1855280/pexels-photo-1855280.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Bored"
+        "emotion": "Bored",
+        "genus": "Rangifer"
     },
     {
         "name": "Sea Turtle",
         "description": "Sea turtles are kinda cool.  So serene",
         "url": "https://images.pexels.com/photos/847393/pexels-photo-847393.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Serene"
+        "emotion": "Serene",
+        "genus": "Chelonia mydas"
     },
     {
         "name": "Chimpanzee",
         "description": "He's mad because he doesn't know how to use tools...",
         "url": "https://images.pexels.com/photos/33787/chimpanzee-sitting-sad-mammal.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Angry"
+        "emotion": "Angry",
+        "genus": "Pan"
     },
     {
         "name": "Lion",
         "description": "King of the beasts bout to sneeze.",
         "url": "https://images.pexels.com/photos/1106452/pexels-photo-1106452.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Angry"
+        "emotion": "Angry",
+        "genus": "Panthera"
     },
     {
         "name": "Bear",
         "description": "Lookin for fish.",
         "url": "https://images.pexels.com/photos/158109/kodiak-brown-bear-adult-portrait-wildlife-158109.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Hungry"
+        "emotion": "Hungry",
+        "genus": "Ursus"
     },
     {
         "name": "Squirrel",
         "description": "Squirrel!",
         "url": "https://images.pexels.com/photos/314865/pexels-photo-314865.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Hungry"
+        "emotion": "Hungry",
+        "genus": "Ratufa"
     },
     {
         "name": "Moose",
         "description": "There were many of them, many much moosen!",
         "url": "https://images.pexels.com/photos/76972/moose-moose-rack-male-bull-76972.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "emotion": "Majestic"
+        "emotion": "Majestic",
+        "genus": "Alces"
     },
     {
         "name": "Pig and Bird",
         "description": "Two for the price of one!",
         "url": "https://images.pexels.com/photos/66258/staniel-cay-swimming-pig-seagull-fish-66258.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-        "emotion": "Happy"
+        "emotion": "Happy",
+        "genus": "Sus and Loriculus"
     },
     {
         "name": "Cat",
         "description": "He is not amused.",
         "url": "https://images.pexels.com/photos/208984/pexels-photo-208984.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        "emotion": "Unhappy"
+        "emotion": "Unhappy",
+        "genus": "Felis"
     },
     {
         "name": "Dog",
         "description": "Oh yeah, he definitely works out.",
         "url": "https://images.pexels.com/photos/37735/trick-dog-trick-malinois-dog-show-trick-37735.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        "emotion": "Swole"
+        "emotion": "Swole",
+        "genus": "Canis"
     },
     {
         "name": "Hawk",
         "description": "Well... that was... hawkward.",
         "url": "https://images.pexels.com/photos/1526410/pexels-photo-1526410.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        "emotion": "Embarrassed"
+        "emotion": "Embarrassed",
+        "genus": "Buteos"
     },
     {
         "name": "Llama",
         "description": "Get ready for the spit!!",
         "url": "https://images.pexels.com/photos/706194/pexels-photo-706194.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-        "emotion": "Bugged"
+        "emotion": "Bugged",
+        "genus": "Lama"
     }
 ]
