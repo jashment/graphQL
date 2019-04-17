@@ -6,5 +6,6 @@ type Animal {
   description: String @unique
   url: String
   emotion: String
+  genus: String
 }
 

@@ -31,6 +31,7 @@
     createdAt
     updatedAt
     url
+    genus
   }
  }`
 
@@ -43,6 +44,7 @@
     id
     name
     createdAt
+    genus
   }
  }`
 

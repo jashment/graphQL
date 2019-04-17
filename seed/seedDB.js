@@ -7,7 +7,8 @@ const mutation = `mutation createAnimal (
     $name: String,
     $description: String,
     $url: String,
-    $emotion: String
+    $emotion: String,
+    $genus: String
 )
 {
     createAnimal(data: {
@@ -15,6 +16,7 @@ const mutation = `mutation createAnimal (
       description: $description
       url: $url
       emotion: $emotion
+      genus: $genus
     }) {
       id
     }
@@ -34,7 +36,8 @@ async function main(inputFiles) {
         name: item.name,
         description: item.description,
         url: item.url,
-        emotion: item.emotion
+        emotion: item.emotion,
+        genus: item.genus
     }
 
     await client.request(mutation, variables)
